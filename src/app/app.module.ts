@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VenderComponent } from './vender/vender.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ProveedorComponent } from './proveedor/proveedor.component';
     LoginComponent,
     MenuComponent,
     VenderComponent,
-    ProveedorComponent
+    ProveedorComponent,
+    LayoutComponent,    
   ],
   imports: [
     BrowserModule,

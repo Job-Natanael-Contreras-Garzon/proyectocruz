@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
 import { VenderComponent } from './vender/vender.component';
+import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,16 @@ const routes: Routes = [
     path: 'Vender',//ruta 
     component: VenderComponent,
     data: { name: 'vender' }
+  },
+  {
+    path: 'home',//ruta 
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        component: LoginComponent,
+      }
+    ]
   },
   // {
   //   path: '**',//ruta,    
