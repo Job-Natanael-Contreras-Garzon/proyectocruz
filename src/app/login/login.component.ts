@@ -31,7 +31,7 @@ export class LoginComponent {
   onLogin(){
     console.log("naskvbabsadfamskfaaaaa");
     this.disabled = true;
-    this.router.navigate(['/menu']);
+    this.router.navigate(['/']);
    
   }
 }
