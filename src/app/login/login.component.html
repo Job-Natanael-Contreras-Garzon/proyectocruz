@@ -1,15 +1,22 @@
 <div class="login-container">
-    <h2>Iniciar Sesión</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="input-group">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" name="username" required>
+  <h2>Iniciar Sesión</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" #loginFormDirective="ngForm">
+    <div class="input-group">
+      <label for="username">Usuario</label>
+      <input type="text" id="username" name="username" required formControlName="username">
+      <div *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched" class="error-message">
+        Por favor, rellena el campo de usuario.
       </div>
-      <div class="input-group">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="input-group">
+      <label for="password">Contraseña</label>
+      <div class="password-container">
+        <input type="password" id="password" name="password" required formControlName="password">
       </div>
-      <button type="submit" (onClick)="onLogin()">Iniciar Sesión</button>
-    </form>
-   
-  </div>
+      <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" class="error-message">
+        Por favor, rellena el campo de contraseña.
+      </div>
+    </div>
+    <button type="submit" [disabled]="loginFormDirective.invalid" (click)="onSubmit()">Iniciar Sesión</button>
+  </form>
+</div>
