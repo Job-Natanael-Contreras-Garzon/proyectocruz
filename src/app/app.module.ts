@@ -9,13 +9,15 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VenderComponent } from './vender/vender.component';
+import { ProveedorComponent } from './proveedor/proveedor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MenuComponent,
-    VenderComponent
+    VenderComponent,
+    ProveedorComponent
   ],
   imports: [
     BrowserModule,
