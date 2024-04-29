@@ -29,9 +29,9 @@ export class LoginComponent {
     private fb:FormBuilder,
   ){}
   onLogin(){
-    console.log("naskvbabsadfamskfaaaaa");
     this.disabled = true;
     this.router.navigate(['/']);
+    this.router.navigate(['/menu']);
    
   }
 }
