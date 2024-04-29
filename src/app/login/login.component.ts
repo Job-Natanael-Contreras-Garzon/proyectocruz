@@ -30,8 +30,8 @@ export class LoginComponent {
   ){}
   onLogin(){
     this.disabled = true;
-    this.router.navigate(['/']);
-    this.router.navigate(['/menu']);
+    //this.router.navigate(['/']);
+    this.router.navigate(['/Vender']);
    
   }
 }
