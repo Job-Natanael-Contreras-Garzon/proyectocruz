@@ -4,11 +4,7 @@ import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  {
-    path: '',//ruta 
-    component: LoginComponent,
-    data: { name: 'iramenu' }
-  },
+  
   {
     path: 'menu',//ruta 
     component: MenuComponent,
