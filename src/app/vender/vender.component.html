@@ -1,17 +1,34 @@
-<div class="Vender">
-    <h1>Formulario de venta</h1>
-  
-    <form>
-      <h2>Información del cliente</h2>
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required>
-  
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" required>
-  
-      <label for="telefono">Teléfono:</label>
-      <input type="tel" id="telefono" name="telefono">
-  
+<div >
+  <h1>Formulario de venta</h1>
+
+  <form class=".container">
+    <div class="parent">
+      <div class="div1"> 
+      
+     
+    <h2>Información del cliente</h2>
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="email">Correo electrónico:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="tel" id="telefono" name="telefono">
+
+    <h2>Método de pago</h2>
+    <label for="metodoPago">Método de pago:</label>
+    <select id="metodoPago" name="metodoPago" required>
+      <option value="">Seleccione un método de pago</option>
+      <option value="efectivo">Efectivo</option>
+      <option value="tarjetaCredito">Tarjeta de crédito</option>
+      <option value="tarjetaDebito">Tarjeta de débito</option>
+    </select>
+
+  </div>
+
+    
+    <div class="div2"> 
       <h2>Selección de productos</h2>
       <select id="producto" name="producto" #producto>
         <option value="">Seleccione un producto</option>
@@ -24,46 +41,38 @@
       <input type="number" id="cantidad" name="cantidad" min="1" value="1">
   
       <button type="button" (click)="agregarProducto(producto.value)">Agregar producto</button>
-  
-      <table id="productosSeleccionados">
-        <thead>
-          <tr>
-            <th>Eliminar</th>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let producto of productos; let i = index">
-            <td><input type="checkbox" name="eliminar" value="{{i}}" /></td>
-            <td>{{ producto.producto }}</td>
-            <td>{{ producto.cantidad }}</td>
-            <td>{{ producto.precio.toFixed(2) }}</td>
-            <td>{{ producto.subtotal.toFixed(2) }}</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="4">Total</td>
-            <td id="total">0</td>
-          </tr>
-        </tfoot>
-      </table>
-  
-      <button type="button" (click)="eliminarProductos()">Eliminar producto</button>
-  
-      <h2>Método de pago</h2>
-      <label for="metodoPago">Método de pago:</label>
-      <select id="metodoPago" name="metodoPago" required>
-        <option value="">Seleccione un método de pago</option>
-        <option value="efectivo">Efectivo</option>
-        <option value="tarjetaCredito">Tarjeta de crédito</option>
-        <option value="tarjetaDebito">Tarjeta de débito</option>
-      </select>
-  
-      <button type="submit">Enviar pedido</button>
-    </form>
+      
+    <table id="productosSeleccionados">
+      <thead>
+        <tr>
+          <th>Eliminar</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos; let i = index">
+          <td><input type="checkbox" name="eliminar" value="{{i}}" /></td>
+          <td>{{ producto.producto }}</td>
+          <td>{{ producto.cantidad }}</td>
+          <td>{{ producto.precio.toFixed(2) }}</td>
+          <td>{{ producto.subtotal.toFixed(2) }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">Total</td>
+          <td id="total">0</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <button type="button" (click)="eliminarProductos()">Eliminar producto</button>
+
+    <button type="submit">Enviar pedido</button>
   </div>
-  
+  </div>
+  </form>
+</div>

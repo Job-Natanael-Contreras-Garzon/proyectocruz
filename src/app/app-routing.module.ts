@@ -1,36 +1,29 @@
+// app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
 import { VenderComponent } from './vender/vender.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AlmacenesComponent } from './almacenes/almacenes.component';
+import { ProveedorComponent } from './proveedor/proveedor.component';
+import { ProductoComponent } from './producto/producto.component';
 
 const routes: Routes = [
   {
-    path: '',//ruta 
-    component: LoginComponent,
-    data: { name: 'login' }
+    path: '', // Ruta por defecto
+    redirectTo: 'login',
+    pathMatch:'full'
   },
-  {
-    path: 'Vender',//ruta 
-    component: VenderComponent,
-    data: { name: 'vender' }
+  { path: 'login',
+    component: LoginComponent 
   },
-  {
-    path: 'home',//ruta 
-    component: LayoutComponent,
-    children: [
-      {
-        path: '',
-        component: LoginComponent,
-      }
-    ]
-  },
-  // {
-  //   path: '**',//ruta,    
-  //   redirectTo: 'menu',  
-  //   pathMatch: 'full'
-  // }
+  { path: 'home', component: LayoutComponent, children: [
+    { path: '', redirectTo: '', pathMatch: 'full' }, // Redirige a la página de almacenes por defecto
+    { path: 'almacen', component: AlmacenesComponent },// Ruta para el componente de almacenes 
+    { path: 'proveedores', component: ProveedorComponent },
+    { path: 'vender', component : VenderComponent }, 
+    { path: 'productos', component : ProductoComponent },  
+  ]},
 ];
 
 @NgModule({

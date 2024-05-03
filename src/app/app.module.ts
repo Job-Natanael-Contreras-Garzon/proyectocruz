@@ -7,10 +7,12 @@ import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VenderComponent } from './vender/vender.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AlmacenesComponent } from './almacenes/almacenes.component';
+import { ProductoComponent } from './producto/producto.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +21,17 @@ import { LayoutComponent } from './layout/layout.component';
     MenuComponent,
     VenderComponent,
     ProveedorComponent,
-    LayoutComponent,    
+    LayoutComponent,
+    AlmacenesComponent,
+    ProductoComponent,    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

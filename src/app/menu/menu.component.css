@@ -3,21 +3,25 @@
   flex-direction: column;
   width: 200px;
 }
-/*
 .menu-container {
-  flex: 0 0 200px; 
-  background-color: #007bff;
+  flex: 0 0 200px;
+  max-width: 220px;  /*Ajusta el ancho máximo según sea necesario */
+  
+  overflow-y: auto; /* Añade desplazamiento vertical si es necesario */
+  background-color: #08213a;
   color: #fff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} */
+}
+  
 
 .menu {
-  flex: 1; /* altura automática */
-  padding: 100px;
-  width: 200px;
-  background-color: #f8f9fa;
+  flex: 29; /* altura automática */
+  padding: 0px;
+  width: 175px;
+  overflow-y: auto;
+  background-color: #08213a;
 }
 
 .h2-menu {

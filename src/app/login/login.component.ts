@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,44 +9,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  public disabled: boolean = false;
-  public loginForm: FormGroup = this.fb.group({
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required]]
-  });
+  public loginForm: FormGroup;
+  public errorMessage: string = '';
 
-  get passwordValid(): boolean {
-    return this.loginForm.get('password')?.valid || false;
-  }
-
-  login(username: string, password: string): void {
-    this.http.post('/api/login', { username, password }).subscribe((response) => {
-      // Manejar la respuesta del servidor
-    }, (error) => {
-      console.error('Error en la autenticación:', error);
-    });
-  }
   constructor(
-    private http: HttpClient,
+    private authService: AuthService,
     private router: Router,
     private fb: FormBuilder
-  ){}
-  onLogin(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    this.disabled = true;
-    
-    this.router.navigate(['/home']);
+  ) {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.onLogin();
+      const username = this.loginForm.value.username;
+      const password = this.loginForm.value.password;
+      this.login(username, password);
     } else {
-      this.loginForm.markAllAsTouched();
+      this.errorMessage = 'Por favor, complete todos los campos.';
     }
+  }
+
+  login(username: string, password: string): void {
+    this.authService.login(username, password).subscribe(
+      (response: any) => {
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/home']);
+        } else {
+          this.errorMessage = 'Autenticación fallida.';
+        }
+      },
+      (error) => {
+        console.error('Error en la autenticación:', error);
+        this.errorMessage = 'Error en la autenticación. Por favor, inténtalo de nuevo más tarde.';
+      }
+    );
   }
 }

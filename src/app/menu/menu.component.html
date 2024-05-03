@@ -1,17 +1,20 @@
 <div class="container">
+  <form [formGroup]="AlmacenForm" (ngSubmit)="onAlmacen()" #loginFormDirective="ngForm">
   <div class="menu-container">
     <div class="menu">
-      <h2 class="h2-menu">Menú de Navegación</h2>
+      <h2 class="h2-menu"></h2>
       <ul class="ul-menu">
-        <li class="li-menu"><a routerLink="/inicio">Inicio</a></li>
-        <li class="li-menu"><a routerLink="/vender">Vender</a></li>
+        <li class="li-menu"><a routerLink="/home">Inicio</a></li>
+        <li class="li-menu"><a routerLink="/home/vender">Vender</a></li>
         <li class="li-menu"><a routerLink="/facturas">Facturas</a></li>
-        <li class="li-menu"><a routerLink="/productos">Productos</a></li>
+        <li class="li-menu"><a routerLink="/home/productos">Productos</a></li>
         <li class="li-menu"><a routerLink="/comprar">Comprar</a></li>
-        <li class="li-menu"><a routerLink="/proveedores">Proveedores</a></li>
+        <li class="li-menu"><a routerLink="/home/proveedores">Proveedores</a></li>
+        <li class="li-menu"><a routerLink="/home/almacen" >Almacenes</a></li>
         <li class="li-menu"><a routerLink="/promociones">Promociones/Descuentos</a></li>
         <li class="li-menu"><a routerLink="/cerrar-sesion">Cerrar Sesión</a></li>
       </ul>
     </div>
   </div>
+  </form>
 </div>

@@ -1,1 +1,42 @@
-<p>proveedor works!</p>
+<div class="container">
+    <h1>Formulario de Proveedor</h1>
+
+    <form #proveedorForm="ngForm" (ngSubmit)="validarYAgregarProveedor()">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required [(ngModel)]="nombre"><br>
+        <span class="error" id="nombreError"></span><br>
+        <label for="direccion">Dirección:</label><br>
+        <input type="text" id="direccion" name="direccion" required [(ngModel)]="direccion"><br>
+        <span class="error" id="direccionError"></span><br>
+        <label for="telefono">Teléfono:</label><br>
+        <input type="text" id="telefono" name="telefono" required [(ngModel)]="telefono"><br>
+        <span class="error" id="telefonoError"></span><br>
+        <button type="submit">Agregar Proveedor</button>
+    </form>
+
+    <br>
+
+    <h2>Proveedores</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Seleccionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let proveedor of proveedores">
+                <td>{{ proveedor.nombre }}</td>
+                <td>{{ proveedor.direccion }}</td>
+                <td>{{ proveedor.telefono }}</td>
+                <td><input type="checkbox" [(ngModel)]="proveedor.selected"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" (click)="eliminarProveedor()">Eliminar</button>
+    <button type="button" (click)="modificarProveedor()">Modificar</button>
+</div>

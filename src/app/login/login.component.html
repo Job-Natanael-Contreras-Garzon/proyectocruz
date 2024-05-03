@@ -1,6 +1,6 @@
 <div class="login-container">
   <h2>Iniciar Sesión</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" #loginFormDirective="ngForm">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="input-group">
       <label for="username">Usuario</label>
       <input type="text" id="username" name="username" required formControlName="username">
@@ -17,6 +17,6 @@
         Por favor, rellena el campo de contraseña.
       </div>
     </div>
-    <button type="submit" [disabled]="loginFormDirective.invalid" (click)="onSubmit()">Iniciar Sesión</button>
+    <button type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
   </form>
 </div>

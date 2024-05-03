@@ -1,0 +1,74 @@
+<div class="container">
+  <h1>Gestión de Almacenes</h1>
+  
+  <div class="almacenes">
+    <h2>Almacenes Registrados</h2>
+    <table id="almacenes-table" class="almacenes-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Ciudad</th>
+          <th>Capacidad Actual</th>
+          <th>Capacidad Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aquí se mostrarán los almacenes registrados -->
+        <tr *ngFor="let almacen of almacenes">
+          <td>{{ almacen.nombre }}</td>
+          <td>{{ almacen.direccion }}</td>
+          <td>{{ almacen.ciudad }}</td>
+          <td>{{ almacen.capacidad_actual }}</td>
+          <td>{{ almacen.capacidad_total }}</td>
+          <td>
+            <button class="btn-edit" (click)="editarAlmacen(almacen)">Editar</button>
+            <button class="btn-delete" (click)="eliminarAlmacen(almacen)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- Formulario de registro de nuevo almacén -->
+  <div class="parent">
+    
+    <div class="div1">
+      <form id="almacen-form" class="form" [formGroup]="AlmacenForm">
+        
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" formControlName="nombre">
+        </div>
+        <div class="form-group">
+          <label for="direccion">Dirección:</label>
+          <input type="text" id="direccion" formControlName="direccion">
+        </div>
+        <div class="form-group">
+          <label for="ciudad">Ciudad:</label>
+          <input type="text" id="ciudad" formControlName="ciudad">
+        </div>
+      </form>
+    </div>
+    <div class="div2">
+      <form id="almacen-form" class="form" [formGroup]="AlmacenForm">
+        <div class="form-group">
+          <label for="capacidad_actual">Capacidad Actual:</label>
+          <input type="number" id="capacidad_actual" formControlName="capacidad_actual">
+        </div>
+        <div class="form-group">
+          <label for="capacidad_total">Capacidad Total:</label>
+          <input type="number" id="capacidad_total" formControlName="capacidad_total">
+        </div>
+        <button type="button" class="btn-submit" (click)="registrarAlmacen()">Registrar</button>
+      </form>
+    </div>
+    <div class="div3">
+      <h2>Registrar Nuevo Almacén</h2>
+    </div>
+    
+  </div>
+</div>
