@@ -1,52 +1,59 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../../services/user.service';
+import { User } from '../interfaces/user';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  public loginForm: FormGroup;
-  public errorMessage: string = '';
+export class LoginComponent implements OnInit{
+  
+  username: string = '';
+  password: string = '';
+  loading: boolean = false;
 
-  constructor(
-    private authService: AuthService,
+  constructor(private toastr: ToastrService,
+    private _userService: UserService,
     private router: Router,
-    private fb: FormBuilder
-  ) {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
+    private _errorServices: ErrorService) {
 
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      const username = this.loginForm.value.username;
-      const password = this.loginForm.value.password;
-      this.login(username, password);
-    } else {
-      this.errorMessage = 'Por favor, complete todos los campos.';
+  }
+  
+   ngOnInit(): void {
+    
+  }
+  
+  login() {
+
+    // Validamos que el usuario ingrese datos
+    if (this.username == '' || this.password == '') {
+      this.toastr.error('Todos los campos son obligatorios', 'Error');
+      return
     }
-  }
 
-  login(username: string, password: string): void {
-    this.authService.login(username, password).subscribe(
-      (response: any) => {
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/home']);
-        } else {
-          this.errorMessage = 'Autenticación fallida.';
-        }
+    // Creamos el body
+    const user: User = {
+      username: this.username,
+      password: this.password
+    }
+
+    this.loading = true;
+    this._userService.login(user).subscribe({
+      next: (token) => {
+        localStorage.setItem('token',token)
+        this.router.navigate(['/home']);
       },
-      (error) => {
-        console.error('Error en la autenticación:', error);
-        this.errorMessage = 'Error en la autenticación. Por favor, inténtalo de nuevo más tarde.';
-      }
-    );
+      error: (e: HttpErrorResponse) => {
+        this._errorServices.msjError(e);
+        this.loading = false;
+      } 
+    })
+
   }
+ 
 }

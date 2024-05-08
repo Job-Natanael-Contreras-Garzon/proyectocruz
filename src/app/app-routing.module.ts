@@ -9,21 +9,17 @@ import { ProveedorComponent } from './proveedor/proveedor.component';
 import { ProductoComponent } from './producto/producto.component';
 
 const routes: Routes = [
-  {
-    path: '', // Ruta por defecto
-    redirectTo: 'login',
-    pathMatch:'full'
-  },
-  { path: 'login',
-    component: LoginComponent 
-  },
+  {path: '', redirectTo: 'login',pathMatch:'full'},
+  { path: 'login',component: LoginComponent},
+
   { path: 'home', component: LayoutComponent, children: [
-    { path: '', redirectTo: '', pathMatch: 'full' }, // Redirige a la página de almacenes por defecto
+    //{ path: '', redirectTo: '', pathMatch: 'full' }, // Redirige a la página de almacenes por defecto
     { path: 'almacen', component: AlmacenesComponent },// Ruta para el componente de almacenes 
     { path: 'proveedores', component: ProveedorComponent },
     { path: 'vender', component : VenderComponent }, 
     { path: 'productos', component : ProductoComponent },  
   ]},
+  { path: '**',redirectTo: 'login',pathMatch:'full'},
 ];
 
 @NgModule({

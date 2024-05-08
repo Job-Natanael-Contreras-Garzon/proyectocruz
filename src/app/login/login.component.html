@@ -1,22 +1,18 @@
-<div class="login-container">
-  <h2>Iniciar Sesión</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="input-group">
-      <label for="username">Usuario</label>
-      <input type="text" id="username" name="username" required formControlName="username">
-      <div *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched" class="error-message">
-        Por favor, rellena el campo de usuario.
+<div class="wrapper">
+  <div *ngIf="!loading" class="body">
+      <img class="logo" src="../../../assets/img/autorepuesto.png" alt="img autorepuesto">
+      <h3 class="mb-2">Login</h3>
+      <div class="form-floating mb-3 mt-3">
+          <input type="text" [(ngModel)]="username" autocomplete="false" class="form-control" placeholder="Ingrese usuario">
+          <label>Usuario</label>
       </div>
-    </div>
-    <div class="input-group">
-      <label for="password">Contraseña</label>
-      <div class="password-container">
-        <input type="password" id="password" name="password" required formControlName="password">
+      <div class="form-floating mb-3">
+          <input type="password" [(ngModel)]="password" autocomplete="false" class="form-control" placeholder="Ingrese password">
+          <label>Password</label>
       </div>
-      <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" class="error-message">
-        Por favor, rellena el campo de contraseña.
+      <div class="d-grid gap-2">
+          <button type="button" class="btn btn-primary btn-lg" (click)="login()">Aceptar</button>
       </div>
-    </div>
-    <button type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
-  </form>
+      <app-spinner *ngIf = "loading"></app-spinner>
+  </div>
 </div>

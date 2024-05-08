@@ -7,9 +7,9 @@ const jwt = require('jsonwebtoken');
 // Database connection configuration
 const db_config = {
   host: "localhost",
-  database: "REPUESTOSCRUZ",
+  database: "AUTOREPUESTOSCRUZ",
   user: "postgres",
-  password: "contreras123",
+  password: "071104",
   port: 5432,
 };
 

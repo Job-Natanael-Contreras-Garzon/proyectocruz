@@ -3,16 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+//Modulos
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VenderComponent } from './vender/vender.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AlmacenesComponent } from './almacenes/almacenes.component';
 import { ProductoComponent } from './producto/producto.component';
+import { InventarioComponent } from './inventario/inventario.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +31,9 @@ import { ProductoComponent } from './producto/producto.component';
     ProveedorComponent,
     LayoutComponent,
     AlmacenesComponent,
-    ProductoComponent,    
+    ProductoComponent,
+    InventarioComponent,
+    SpinnerComponent,    
   ],
   imports: [
     BrowserModule,
@@ -31,7 +41,14 @@ import { ProductoComponent } from './producto/producto.component';
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
