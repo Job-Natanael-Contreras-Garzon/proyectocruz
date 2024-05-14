@@ -17,6 +17,16 @@ export class UserService {
     this.myApiUrl = 'api/users';
   }
 
+  newUser(user: User):Observable<string> {
+    //console.log(user);
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`,user);
+  }
+
+  newPassword(user: User):Observable<string> {
+    //console.log(user);
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newPassword`,user);
+  }
+
   login(user: User):Observable<string> {
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`,user);
   }

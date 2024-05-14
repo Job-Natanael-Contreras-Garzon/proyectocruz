@@ -12,7 +12,9 @@ html, body {
 }
 
 .logo {
-    height: 130px;
+    /*height: 50px;*/
+    width: 80%; /* Reducción del ancho del logo */
+    max-width: 200px; /* Limitación del ancho máximo del logo */
     margin-bottom: 10px;
 }
 

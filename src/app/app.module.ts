@@ -20,6 +20,8 @@ import { AlmacenesComponent } from './almacenes/almacenes.component';
 import { ProductoComponent } from './producto/producto.component';
 import { InventarioComponent } from './inventario/inventario.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { NewPasswordComponent } from './new-password/new-password.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
     AlmacenesComponent,
     ProductoComponent,
     InventarioComponent,
-    SpinnerComponent,    
+    SpinnerComponent,
+    SignInComponent,
+    NewPasswordComponent,    
   ],
   imports: [
     BrowserModule,

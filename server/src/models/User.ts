@@ -1,7 +1,7 @@
 import { DataType, DataTypes } from 'sequelize';
 import sequelize from '../db/conexion';
 
-export const User = sequelize.define('User',{
+export const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -16,5 +16,30 @@ export const User = sequelize.define('User',{
         type: DataTypes.STRING,
         allowNull: false
     }
-})
-//export const producto= sequelize.
+}, {
+    tableName: 'usuario', // Nombre de la tabla existente en la base de datos
+    timestamps: false // Indica que no hay columnas 'createdAt' y 'updatedAt' en la tabla
+});
+
+
+// Llamar al procedimiento almacenado
+export async function callCrearUsuarioProcedure(nombreAdministrador: string, telefono: string, correoElectronico: string, username: string, password: string, tipoPermiso: string) {
+    try {
+      const [results, metadata] = await sequelize.query(
+        `CALL crear_usuario('${nombreAdministrador}', '${telefono}', '${correoElectronico}', '${username}', '${password}', '${tipoPermiso}')`
+      );
+      //console.log(results);
+    } catch (error) {
+      console.error('Error al llamar al procedimiento almacenado:', error);
+    }
+  }
+  
+export async function callActualizarPassword(username: string, password: string){
+  try {
+    const [results, metadata] = await sequelize.query(
+      `CALL actualizar_contrasena('${username}', '${password}')`
+    );
+  } catch (error) {
+    console.error('Error al llamar al procedimiento almacenado:', error);
+  }
+}

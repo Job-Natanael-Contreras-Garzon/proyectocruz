@@ -1,13 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 240px;
 }
 .menu-container {
   flex: 0 0 200px;
-  max-width: 220px;  /*Ajusta el ancho máximo según sea necesario */
+  max-width: 350px;  /*Ajusta el ancho máximo según sea necesario */
   
-  overflow-y: auto; /* Añade desplazamiento vertical si es necesario */
+  /*overflow-y: auto;  Añade desplazamiento vertical si es necesario */
   background-color: #08213a;
   color: #fff;
   padding: 10px;
@@ -19,9 +19,9 @@
 .menu {
   flex: 29; /* altura automática */
   padding: 0px;
-  width: 175px;
+  width: 250px;
   overflow-y: auto;
-  background-color: #08213a;
+  /* background-color: #08213a; */
 }
 
 .h2-menu {
@@ -41,7 +41,7 @@
   margin-bottom: 10px;
 }
 
-a {
+a, .btn {
   color: #fff;
   text-decoration: none;
   display: block;
@@ -50,6 +50,12 @@ a {
   transition: background-color 0.3s;
 }
 
-a:hover {
+
+.btn {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.li-menu:hover, .btn:hover {
   background-color: #0056b3;
 }

@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.newUser = void 0;
+exports.loginUser = exports.newPassword = exports.newUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = require("../models/User");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const User_2 = require("../models/User");
 const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
+    const { nombreAdministrador, telefono, correoElectronico, username, password, tipoPermiso } = req.body;
     //codificacion de la contraseña
     const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     //validar si el Usuario ya existe en la Base de Datos
@@ -29,10 +30,12 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     try {
         //Guardar Usuario en la base de datos
-        yield User_1.User.create({
-            username: username,
-            password: hashedPassword
-        });
+        // await User.create({
+        //     username: username,
+        //     password: hashedPassword
+        // })
+        //console.log(nombreAdministrador);
+        yield (0, User_2.callCrearUsuarioProcedure)(nombreAdministrador, telefono, correoElectronico, username, hashedPassword, tipoPermiso);
         res.json({
             msg: `Usuario ${username} creado exitosamente`,
         });
@@ -45,6 +48,31 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.newUser = newUser;
+const newPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    //Encriptamos el password
+    const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+    //validamos si el usuario existe en la base
+    const user = yield User_1.User.findOne({ where: { username: username } });
+    if (!user) {
+        return res.status(400).json({
+            msg: `No existe un usuario con el nombre ${username} en la base de datos`
+        });
+    }
+    try {
+        yield (0, User_1.callActualizarPassword)(username, hashedPassword);
+        res.json({
+            msg: `Password actualizado exitosamente`,
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Ups Ocurrio Un error',
+            error
+        });
+    }
+});
+exports.newPassword = newPassword;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     //validamos si el usuario existe en la base

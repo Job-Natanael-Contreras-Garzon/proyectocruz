@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import bycrypt from 'bcrypt';
-import { User } from '../models/User';
+import { User, callActualizarPassword } from '../models/User';
 import jwt from 'jsonwebtoken'
+import { callCrearUsuarioProcedure } from '../models/User';
 
 export const newUser = async (req: Request, res: Response) => {
     
-    const { username, password } = req.body;
+    const { nombreAdministrador, telefono, correoElectronico, username, password, tipoPermiso } = req.body;
 
     //codificacion de la contraseña
     const hashedPassword = await bycrypt.hash(password,10)
@@ -18,15 +19,46 @@ export const newUser = async (req: Request, res: Response) => {
         })
     }
 
+
+    
     try {
         //Guardar Usuario en la base de datos
-        await User.create({
-            username: username,
-            password: hashedPassword
-        })
-    
+        // await User.create({
+        //     username: username,
+        //     password: hashedPassword
+        // })
+        //console.log(nombreAdministrador);
+        await callCrearUsuarioProcedure(nombreAdministrador, telefono, correoElectronico, username, hashedPassword, tipoPermiso);
+
         res.json({
             msg: `Usuario ${username} creado exitosamente`,
+        })
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Ups Ocurrio Un error',
+            error
+        })
+    }
+
+}
+
+export const newPassword = async (req: Request, res: Response) =>{
+    const {username, password} = req.body;
+    //Encriptamos el password
+    const hashedPassword = await bycrypt.hash(password,10)
+    //validamos si el usuario existe en la base
+    const user: any = await User.findOne({where: { username: username }});
+    if(!user){
+        return res.status(400).json({
+            msg: `No existe un usuario con el nombre ${username} en la base de datos`
+        })
+    }
+
+    try {
+        await callActualizarPassword(username, hashedPassword);
+
+        res.json({
+            msg: `Password actualizado exitosamente`,
         })
     } catch (error) {
         res.status(400).json({

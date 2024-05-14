@@ -13,9 +13,15 @@ import { ErrorService } from '../../services/error.service';
 })
 export class LoginComponent implements OnInit{
   
+  nombreAdministrador: string = '';
+  telefono: string = '';
+  correoElectronico: string = '';
+
   username: string = '';
   password: string = '';
   loading: boolean = false;
+
+  tipoPermiso: string = '';
 
   constructor(private toastr: ToastrService,
     private _userService: UserService,
@@ -38,8 +44,12 @@ export class LoginComponent implements OnInit{
 
     // Creamos el body
     const user: User = {
+      nombreAdministrador: this.nombreAdministrador,
+      telefono: this.telefono,
+      correoElectronico: this.correoElectronico,
       username: this.username,
-      password: this.password
+      password: this.password,
+      tipoPermiso: this.tipoPermiso,
     }
 
     this.loading = true;
