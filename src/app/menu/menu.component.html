@@ -9,7 +9,7 @@
         <button class="btn btn-outline-success" (click)="producto()" type="button">Productos</button>
         <button class="btn btn-outline-success" (click)="proveedores()" type="button">Proveedores</button>
         <button class="btn btn-outline-success" (click)="almacen()" type="button">Almacenes</button>
-        <button class="btn btn-outline-success" (click)="registro()" type="button">Registrar Nuevo Usuario</button>
+        <button *ngIf="perm=='A'" class="btn btn-outline-success" (click)="registro()" type="button">Registrar Nuevo Usuario</button>
         <button class="btn btn-outline-success" (click)="cambiar_password()" type="button">Cambiar contraseña</button>
         <button class="btn btn-outline-success"(click)="logOut()" type="button">Cerrar Sesion</button>
       </ul>

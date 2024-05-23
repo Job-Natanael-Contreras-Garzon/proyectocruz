@@ -55,6 +55,7 @@ export class SignInComponent implements OnInit {
       (data: any) => {
         // Manejar la respuesta exitosa aquí
         localStorage.setItem('token', data.token);
+        this.toastr.success('Usuario Creado con exito','Usuario Creado')
         this.limpiarCampos();
       },
       (error: HttpErrorResponse) => {

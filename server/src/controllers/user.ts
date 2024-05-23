@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bycrypt from 'bcrypt';
-import { User, callActualizarPassword } from '../models/User';
+import { User, callActualizarPassword, obtener_categoria_permiso } from '../models/User';
 import jwt from 'jsonwebtoken'
 import { callCrearUsuarioProcedure } from '../models/User';
 
@@ -96,4 +96,26 @@ export const loginUser = async (req: Request, res: Response) => {
 
     res.json(token)
 
+}
+
+export const UserPer = async (req: Request, res: Response) => {
+    const {username} = req.body;
+    //validamos si el usuario existe en la base
+    const user: any = await User.findOne({where: { username: username }});
+    if(!user){
+        return res.status(400).json({
+            msg: `No existe un usuario con el nombre ${username} en la base de datos`
+        })
+    }
+
+    try {
+        const permiso=await obtener_categoria_permiso(username);
+
+        res.json(permiso)
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Ups Ocurrio Un error',
+            error
+        })
+    }
 }

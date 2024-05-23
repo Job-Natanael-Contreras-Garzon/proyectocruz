@@ -1,49 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlmacenServices } from '../../services/almacen.service';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Almacen } from '../interfaces/almacen';
 
 @Component({
   selector: 'app-almacenes',
   templateUrl: './almacenes.component.html',
   styleUrls: ['./almacenes.component.css']
 })
-export class AlmacenesComponent {
-  almacenes: any[] = []; // Aquí almacenaremos los almacenes
-  AlmacenForm: FormGroup;
+export class AlmacenesComponent implements OnInit {
+  almacenes: Almacen[] = []; // Aquí almacenaremos los almacenes
 
-  constructor(private fb: FormBuilder) {
-    // Puedes inicializar los almacenes aquí si lo deseas
-    this.almacenes.push({ nombre: 'Almacén A', direccion: 'Dirección A', ciudad: 'Ciudad A', capacidad_actual: 50, capacidad_total: 100 });
 
-    // Inicializar el formulario
-    this.AlmacenForm = this.fb.group({
-      nombre: ['', Validators.required],
-      direccion: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      capacidad_actual: ['', Validators.required],
-      capacidad_total: ['', Validators.required]
-    });
-  }
-
-  registrarAlmacen() {
-    if (this.AlmacenForm.valid) {
-      // Agregar el nuevo almacén al arreglo de almacenes
-      this.almacenes.push(this.AlmacenForm.value);
-
-      // Limpiar los campos del formulario después de registrar
-      this.AlmacenForm.reset();
-    }
-  }
-
-  editarAlmacen(almacen: any) {
+  constructor(private fb: FormBuilder,
+    private _alamcenServices: AlmacenServices,
+    private toastr: ToastrService,
+    private aRouter: ActivatedRoute,
+    private router: Router,
+  ) {
     
-    alert("Función de editar almacén aún no implementada");
+  }
+  ngOnInit(): void {
+    this.getListAlmacenes();
+  }
+  
+
+  getListAlmacenes(){
+    this._alamcenServices.getlistAlmacenes().subscribe((data)=>{
+      this.almacenes=data;
+    })
   }
 
-  eliminarAlmacen(almacen: any) {
-    // Eliminar el almacén del arreglo de almacenes
-    const index = this.almacenes.indexOf(almacen);
-    if (index !== -1) {
-      this.almacenes.splice(index, 1);
-    }
+
+
+  deleteAlamcen(id: number){
+    this._alamcenServices.deleteAlmacen(id).subscribe(()=>{
+      this.getListAlmacenes();
+      this.toastr.warning('El Almacen fue eliminado con Exito','Almacen eliminado');
+    })
+  }
+
+  navegar(){
+    this.router.navigate(['/home/addAlma']);
   }
 }

@@ -16,6 +16,9 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const producto_1 = __importDefault(require("../routes/producto"));
 const user_1 = __importDefault(require("../routes/user"));
+const factura_1 = __importDefault(require("../routes/factura"));
+const proveedor_1 = __importDefault(require("../routes/proveedor"));
+const almacen_1 = __importDefault(require("../routes/almacen"));
 const User_1 = require("./User");
 class Server {
     constructor() {
@@ -34,6 +37,9 @@ class Server {
     routes() {
         this.app.use('/api/producto', producto_1.default);
         this.app.use('/api/users', user_1.default);
+        this.app.use('/api/factura', factura_1.default);
+        this.app.use('/api/proveedor', proveedor_1.default);
+        this.app.use('/api/almacen', almacen_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());

@@ -30,4 +30,8 @@ export class UserService {
   login(user: User):Observable<string> {
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`,user);
   }
+
+  UserPerm(user: User):Observable<User[]> {
+    return this.http.post<User[]>(`${this.myAppUrl}${this.myApiUrl}/permiso`,user);
+  }
 }

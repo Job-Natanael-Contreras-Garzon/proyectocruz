@@ -7,8 +7,10 @@ import { LayoutComponent } from './layout/layout.component';
 import { AlmacenesComponent } from './almacenes/almacenes.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { ProductoComponent } from './producto/producto.component';
-import { SignInComponent } from './sign-in/sign-in.component';
+import { SignInComponent } from './new-User/sign-in.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
+import { AddNewProveedorComponent } from './add-new-proveedor/add-new-proveedor.component';
+import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login',pathMatch:'full'},
@@ -22,6 +24,10 @@ const routes: Routes = [
     { path: 'productos', component : ProductoComponent },  
     { path: 'registro', component : SignInComponent },
     { path: 'newPassword', component : NewPasswordComponent},
+    { path: 'add', component : AddNewProveedorComponent},
+    { path: 'edit/:codigo', component : AddNewProveedorComponent},
+    { path: 'addAlma', component : AddNewAlmacenComponent},
+    { path: 'editAlma/:id', component : AddNewAlmacenComponent},
   ]},
   { path: '**',redirectTo: 'login',pathMatch:'full'},
 ];

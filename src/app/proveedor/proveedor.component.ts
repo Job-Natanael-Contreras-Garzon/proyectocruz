@@ -1,53 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProveedoresService } from '../../services/proveedores.service';
+import { Proveedores } from '../interfaces/proveedores';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
-interface Proveedor {
-  nombre: string;
-  direccion: string;
-  telefono: string;
-  selected?: boolean;
-}
+
 
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
   styleUrls: ['./proveedor.component.css']
 })
-export class ProveedorComponent {
-  nombre: string = '';
-  direccion: string = '';
-  telefono: string = '';
-  proveedores: Proveedor[] = [];
+export class ProveedorComponent implements OnInit{
 
-  validarYAgregarProveedor(): void {
-    if (this.nombre && this.direccion && this.telefono) {
-      this.proveedores.push({
-        nombre: this.nombre,
-        direccion: this.direccion,
-        telefono: this.telefono
-      });
-      this.nombre = '';
-      this.direccion = '';
-      this.telefono = '';
-    } else {
-      alert("Por favor, complete todos los campos.");
-    }
+
+  constructor(private _proveedorServices: ProveedoresService,
+    private toastr: ToastrService,
+    private aRouter: ActivatedRoute,
+    private router: Router,
+  ){
+    //console.log(aRouter.snapshot.paramMap.get('codigo'));
+    
   }
 
-  eliminarProveedor(): void {
-    this.proveedores = this.proveedores.filter(proveedor => !proveedor.selected);
+  ngOnInit(): void {
+    this.getListProveeedores();
+  }
+
+  getListProveeedores(){
+    this._proveedorServices.getlistProveedores().subscribe((data)=>{
+      this.proveedores=data;
+    })
+  }
+
+
+
+  
+  proveedores: Proveedores[] = [];
+
+  deleteProveedor(codigo: number){
+    this._proveedorServices.deleteProveedor(codigo).subscribe(()=>{
+      this.getListProveeedores();
+      this.toastr.warning('El Proveedor fue eliminado con Exito','Proveedor eliminado');
+    })
+  }
+
+  navegar(){
+    this.router.navigate(['/home/add']);
   }
 
   modificarProveedor(): void {
-    const seleccionados = this.proveedores.filter(proveedor => proveedor.selected);
-    if (seleccionados.length !== 1) {
-      alert("Por favor, seleccione solo un proveedor para modificar.");
-      return;
-    }
-    const seleccionado = seleccionados[0];
-    this.nombre = seleccionado.nombre;
-    this.direccion = seleccionado.direccion;
-    this.telefono = seleccionado.telefono;
-    this.proveedores = this.proveedores.filter(proveedor => !proveedor.selected);
+    
   }
 }
 

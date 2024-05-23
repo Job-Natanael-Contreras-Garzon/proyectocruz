@@ -5,6 +5,9 @@ import { LayoutComponent } from '../layout/layout.component';
 import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../../services/user.service';
+import { User } from '../interfaces/user';
+import { PermisosService } from '../../services/permisos.service';
 
 @Component({
   selector: 'app-menu',
@@ -18,11 +21,15 @@ export class MenuComponent {
   });
 
   private token: string;
+  perm: string | undefined;
+  username:string = '';
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private _userService: UserService,
+    private toastr: ToastrService,
+    private _permiso:PermisosService
   ){
     this.token = localStorage.getItem('token')|| '';
     if(this.token===''){
@@ -30,9 +37,34 @@ export class MenuComponent {
       router.navigate(['/login'])
       return;
     }
+    this.getUsernameFromToken();
+    //console.log(this.perm);
+    this._permiso.obtenerPermisos();
+    this._permiso.perm$.subscribe((permiso: string | undefined) => {
+      this.perm = permiso;
+      //console.log(this.perm);
+    });
+    
+  }
+  
+  
+
+  getUsernameFromToken() {
+    const token = localStorage.getItem('token'); // Obtén el token JWT almacenado en el localStorage
+    if (token) {
+      const tokenParts = token.split('.'); 
+      if (tokenParts.length === 3) {
+        const payload = JSON.parse(atob(tokenParts[1])); // Decodifica la parte del payload
+        this.username = payload.username; 
+       
+      } else {
+        this.toastr.error('El token no tiene el formato esperado.','Error');
+      }
+    } else {
+      this.toastr.error('No se encontró un token en el localStorage.','Error');
+    }
   }
 
-  
 
   //haciendo procedimiento que lleva a la ruta establecida
   onAlmacen(): void {
@@ -62,7 +94,7 @@ export class MenuComponent {
   registro(){
     this.router.navigate(['/home/registro']);
   }
-
+  
   cambiar_password(){
     this.router.navigate(['/home/newPassword']);
   }

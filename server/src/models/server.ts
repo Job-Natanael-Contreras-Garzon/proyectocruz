@@ -2,6 +2,9 @@ import  express, {Application}  from "express";
 import cors from 'cors'
 import routesProducto from '../routes/producto';
 import routerUser from '../routes/user';
+import routerfactura from '../routes/factura';
+import routerproveedor from '../routes/proveedor';
+import routeralmacen from '../routes/almacen';
 import { User } from "./User";
 
 
@@ -27,6 +30,9 @@ class Server{
     routes(){
         this.app.use('/api/producto', routesProducto);
         this.app.use('/api/users',routerUser);
+        this.app.use('/api/factura',routerfactura);
+        this.app.use('/api/proveedor',routerproveedor);
+        this.app.use('/api/almacen',routeralmacen);
     }
 
     midlewares(){

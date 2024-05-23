@@ -32,7 +32,7 @@ export async function callCrearUsuarioProcedure(nombreAdministrador: string, tel
     } catch (error) {
       console.error('Error al llamar al procedimiento almacenado:', error);
     }
-  }
+}
   
 export async function callActualizarPassword(username: string, password: string){
   try {
@@ -41,5 +41,17 @@ export async function callActualizarPassword(username: string, password: string)
     );
   } catch (error) {
     console.error('Error al llamar al procedimiento almacenado:', error);
+  }
+}
+
+export async function obtener_categoria_permiso(username:string) {
+  try {
+      const [results, metadata] = await sequelize.query(
+          `SELECT obtener_categoria_permiso('${username}') AS categoria`
+      );
+      return results;
+  } catch (error) {
+      console.error('Error al llamar al procedimiento almacenado:', error);
+      throw error; // Propaga el error para manejarlo en otro lugar si es necesario
   }
 }

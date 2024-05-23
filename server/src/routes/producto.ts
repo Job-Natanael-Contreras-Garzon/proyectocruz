@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { getProducto } from '../controllers/producto';
+import { deleteProduct, getProducto, newProducto, updateProducto } from '../controllers/producto';
 import validar_token from './validar_token';
 
 const router = Router();
 
-router.get('/',validar_token, getProducto)
+
+router.get('/getProduct', getProducto);
+router.post('/newProduct',newProducto);
+router.post('/updateProduct',updateProducto);
+router.delete('/:cod',deleteProduct);
+
 
 export default router;

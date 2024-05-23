@@ -5,4 +5,5 @@ export interface User{
     username: String;
     password: String;
     tipoPermiso: string;
+    categoria?: string;
 }
