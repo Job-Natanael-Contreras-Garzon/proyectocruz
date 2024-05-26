@@ -1,0 +1,10 @@
+node_modules
+dist
+*.log
+*.md
+.vscode
+.eslintrc.json
+.editorconfig
+.gitignore
+.vscode
+README.md
