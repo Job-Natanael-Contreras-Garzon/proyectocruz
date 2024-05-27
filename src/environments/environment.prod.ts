@@ -5,7 +5,7 @@
 
 export const environment = {
     production: true,
-    endpoint: 'https://node-cruz.herokuapp.com/api'
+    endpoint: 'https://node-cruz.herokuapp.com/'
   };
   
   /*

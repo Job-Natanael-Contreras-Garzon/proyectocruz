@@ -8,6 +8,6 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.http.post('http://localhost:3000/api/login', { username, password });
+    return this.http.post('https://node-cruz.herokuapp.com/api/users/login', { username, password });
   }
 }
