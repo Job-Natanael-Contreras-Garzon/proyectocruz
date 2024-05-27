@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = '/users';
+    this.myApiUrl = 'api/users';
   }
 
   newUser(user: User):Observable<string> {
