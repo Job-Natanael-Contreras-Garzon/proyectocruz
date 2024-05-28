@@ -4,9 +4,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: true,
-    endpoint: 'https://node-cruz-a2766bc53c5a.herokuapp.com/'
-  };
+  production: false,
+  endpoint: 'https://node-cruz-a2766bc53c5a.herokuapp.com/'  // Change this to your actual Heroku endpoint
+};
+
   
   /*
    * For easier debugging in development mode, you can import the following file
