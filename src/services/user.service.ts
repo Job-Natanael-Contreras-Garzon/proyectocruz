@@ -9,29 +9,27 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private myAppUrl: String;
-  private myApiUrl: String;
+  private myAppUrl: string;
+  private myApiUrl: string;
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = 'api/users';
   }
 
-  newUser(user: User):Observable<string> {
-    //console.log(user);
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`,user);
+  newUser(user: User): Observable<string> {
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`, user);
   }
 
-  newPassword(user: User):Observable<string> {
-    //console.log(user);
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newPassword`,user);
+  newPassword(user: User): Observable<string> {
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newPassword`, user);
   }
 
-  login(user: User):Observable<string> {
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`,user);
+  login(user: User): Observable<string> {
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`, user);
   }
 
-  UserPerm(user: User):Observable<User[]> {
-    return this.http.post<User[]>(`${this.myAppUrl}${this.myApiUrl}/permiso`,user);
+  UserPerm(user: User): Observable<User[]> {
+    return this.http.post<User[]>(`${this.myAppUrl}${this.myApiUrl}/permiso`, user);
   }
 }
