@@ -5,7 +5,7 @@
 
 // environment.ts
 export const environment = {
-  production: false,
+  production: true,
   endpoint: 'https://node-cruz.herokuapp.com/'
 };
 
