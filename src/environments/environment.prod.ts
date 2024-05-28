@@ -3,10 +3,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// src/environments/environment.prod.ts
 export const environment = {
-  production: false,
-  endpoint: 'https://node-cruz-a2766bc53c5a.herokuapp.com/'  // Change this to your actual Heroku endpoint
+  production: true,
+  endpoint: 'https://node-cruz.herokuapp.com/',
 };
+
 
   
   /*
