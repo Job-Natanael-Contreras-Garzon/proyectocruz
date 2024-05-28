@@ -17,19 +17,19 @@ export class UserService {
     this.myApiUrl = 'api/users';
   }
 
-  newUser(user: User): Observable<string> {
+  newUser(user: User):Observable<string> {
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`, user);
   }
 
-  newPassword(user: User): Observable<string> {
+  newPassword(user: User):Observable<string> {
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newPassword`, user);
   }
 
-  login(user: User): Observable<string> {
+  login(user: User):Observable<string> {
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`, user);
   }
 
-  UserPerm(user: User): Observable<User[]> {
+  UserPerm(user: User):Observable<User[]> {
     return this.http.post<User[]>(`${this.myAppUrl}${this.myApiUrl}/permiso`, user);
   }
 }
