@@ -42,7 +42,7 @@ export class ProductoComponent implements OnInit{
     this._permiso.obtenerPermisos();
     this._permiso.perm$.subscribe((permiso: string | undefined) => {
       this.permiso = permiso;
-      //console.log(this.permiso);
+      console.log(this.permiso);
     });
   }
   
