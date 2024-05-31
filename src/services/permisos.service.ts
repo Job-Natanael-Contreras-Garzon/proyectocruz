@@ -49,8 +49,6 @@ export class PermisosService {
     };
 
     this._userService.UserPerm(user).subscribe((data: User[]) => {
-      console.log(data);
-      
       if (data && data.length > 0) {
         this.permSubject.next(data[0].categoria);
       } else {
