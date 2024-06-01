@@ -11,6 +11,7 @@
         <button class="btn btn-outline-success" (click)="almacen()" type="button">Almacenes</button>
         <button *ngIf="perm=='A'" class="btn btn-outline-success" (click)="registro()" type="button">Registrar Nuevo Usuario</button>
         <button class="btn btn-outline-success" (click)="cambiar_password()" type="button">Cambiar contraseña</button>
+        <button *ngIf="perm=='A'" class="btn btn-outline-success" (click)="bitacora()" type="button">Bitacora</button>
         <button class="btn btn-outline-success"(click)="logOut()" type="button">Cerrar Sesion</button>
       </ul>
     </div>

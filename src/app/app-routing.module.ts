@@ -11,6 +11,7 @@ import { SignInComponent } from './new-User/sign-in.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { AddNewProveedorComponent } from './add-new-proveedor/add-new-proveedor.component';
 import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.component';
+import { BitacoraComponent } from './bitacora/bitacora.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login',pathMatch:'full'},
@@ -28,6 +29,7 @@ const routes: Routes = [
     { path: 'edit/:codigo', component : AddNewProveedorComponent},
     { path: 'addAlma', component : AddNewAlmacenComponent},
     { path: 'editAlma/:id', component : AddNewAlmacenComponent},
+    { path: 'bitacora', component : BitacoraComponent},
   ]},
   { path: '**',redirectTo: 'login',pathMatch:'full'},
 ];

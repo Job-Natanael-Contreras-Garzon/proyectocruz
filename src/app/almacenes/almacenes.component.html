@@ -25,7 +25,7 @@
           <td>{{ almacen.capacidad_total }}</td>
           <td>
             <button routerLink="/home/editAlma/{{almacen.id}}" class="btn btn-primary btn-sm" >Editar</button>
-            <button (click)="deleteAlamcen(almacen.id!)" class="btn-delete">Eliminar</button>
+            <button (click)="deleteAlamcen(almacen.id!)" class="btn btn-secondary btn-sm">Eliminar</button>
           </td>
         </tr>
         <button class="btn-submit" routerLink="/home/addAlma">Agregar Almacen</button>

@@ -25,6 +25,7 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 
 import { AddNewProveedorComponent } from './add-new-proveedor/add-new-proveedor.component';
 import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.component';
+import { BitacoraComponent } from './bitacora/bitacora.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.compon
     SignInComponent,
     NewPasswordComponent,
     AddNewProveedorComponent,
-    AddNewAlmacenComponent,    
+    AddNewAlmacenComponent,
+    BitacoraComponent,    
   ],
   imports: [
     BrowserModule,

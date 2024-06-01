@@ -104,4 +104,8 @@ export class MenuComponent {
     this.router.navigate(['/login']);
   }
 
+  bitacora(){
+    this.router.navigate(['/home/bitacora']);
+  }
+
 }

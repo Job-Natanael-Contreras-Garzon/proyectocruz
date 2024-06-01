@@ -19,6 +19,7 @@ const user_1 = __importDefault(require("../routes/user"));
 const factura_1 = __importDefault(require("../routes/factura"));
 const proveedor_1 = __importDefault(require("../routes/proveedor"));
 const almacen_1 = __importDefault(require("../routes/almacen"));
+const bitacora_1 = __importDefault(require("../routes/bitacora"));
 const User_1 = require("./User");
 class Server {
     constructor() {
@@ -40,6 +41,7 @@ class Server {
         this.app.use('/api/factura', factura_1.default);
         this.app.use('/api/proveedor', proveedor_1.default);
         this.app.use('/api/almacen', almacen_1.default);
+        this.app.use('/api/bitacora', bitacora_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
