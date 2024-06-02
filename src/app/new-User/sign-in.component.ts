@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../services/error.service';
+import { BitacoraService } from '../../services/bitacora.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,6 +26,7 @@ export class SignInComponent implements OnInit {
     private _userServices: UserService,
     private router: Router,
     private _errorServices: ErrorService,
+    private _bitacoraServices:BitacoraService
   ){}
 
 
@@ -63,7 +65,7 @@ export class SignInComponent implements OnInit {
         this._errorServices.msjError(error);
       } 
     );
-    
+    this._bitacoraServices.ActualizarBitacora("Creó un Nuevo Usuario");
   }
 
   limpiarCampos() {

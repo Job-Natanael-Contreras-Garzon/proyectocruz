@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../services/user.service';
 import { User } from '../interfaces/user';
 import { PermisosService } from '../../services/permisos.service';
+import { BitacoraService } from '../../services/bitacora.service';
+import { Bitacora } from '../interfaces/bitacora';
 
 @Component({
   selector: 'app-menu',
@@ -24,12 +26,14 @@ export class MenuComponent {
   perm: string | undefined;
   username:string = '';
 
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private _userService: UserService,
     private toastr: ToastrService,
-    private _permiso:PermisosService
+    private _permiso:PermisosService,
+    private _bitacoraServices:BitacoraService
   ){
     this.token = localStorage.getItem('token')|| '';
     if(this.token===''){
@@ -38,13 +42,12 @@ export class MenuComponent {
       return;
     }
     this.getUsernameFromToken();
-    //console.log(this.perm);
     this._permiso.obtenerPermisos();
     this._permiso.perm$.subscribe((permiso: string | undefined) => {
       this.perm = permiso;
-      //console.log(this.perm);
     });
-    
+
+    this.getUsernameFromToken();
   }
   
   
@@ -100,8 +103,13 @@ export class MenuComponent {
   }
 
   logOut(){
+    this._bitacoraServices.ActualizarBitacora("Cerro Sesion")
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
+  }
+
+  bitacora(){
+    this.router.navigate(['/home/bitacora']);
   }
 
 }

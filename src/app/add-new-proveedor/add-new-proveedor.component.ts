@@ -3,6 +3,7 @@ import { Proveedores } from '../interfaces/proveedores';
 import { ProveedoresService } from '../../services/proveedores.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BitacoraService } from '../../services/bitacora.service';
 
 @Component({
   selector: 'app-add-new-proveedor',
@@ -17,7 +18,8 @@ export class AddNewProveedorComponent implements OnInit{
   constructor(private _proveedorServices: ProveedoresService,
     private toastr: ToastrService,
     private aRouter: ActivatedRoute,
-    private router: Router,)
+    private router: Router,
+    private _bitacoraServices:BitacoraService)
   {
       this.codigo = Number(this.aRouter.snapshot.paramMap.get('codigo'));
   }
@@ -65,12 +67,14 @@ export class AddNewProveedorComponent implements OnInit{
       proveedor.codigo=this.codigo;
       this._proveedorServices.UpdateProveedor(this.codigo,proveedor).subscribe(()=>{
         this.toastr.success(`El Proveedor ${this.nombre} fue actualizado con exito`,'Proveedor Actualizado'); 
+        this._bitacoraServices.ActualizarBitacora("Actualizo los datos de un Proveedor");
         this.router.navigate(['home/proveedores']);
       })
     }else{
       //agregar
       this._proveedorServices.newProveedor(proveedor).subscribe(()=>{
         this.toastr.success(`El Proveedor ${this.nombre} fue registrado con exito`,'Proveedor Registrado');
+        this._bitacoraServices.ActualizarBitacora("Registro los Datos de un Nuevo Proveedor");
         this.router.navigate(['home/proveedores']);
       })
     }

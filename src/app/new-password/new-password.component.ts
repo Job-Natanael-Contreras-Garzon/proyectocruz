@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ErrorService } from '../../services/error.service';
 import { User } from '../interfaces/user';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BitacoraService } from '../../services/bitacora.service';
 
 @Component({
   selector: 'app-new-password',
@@ -27,6 +28,7 @@ export class NewPasswordComponent implements OnInit {
   constructor(private toastr: ToastrService,
     private _userService: UserService,
     private router: Router,
+    private _bitacoraServices:BitacoraService,
     private _errorServices: ErrorService){
   }
   
@@ -77,7 +79,7 @@ export class NewPasswordComponent implements OnInit {
         this._errorServices.msjError(error);
       } 
     );
-
+    this._bitacoraServices.ActualizarBitacora("Actualizó su contraseña");
   }
 
   limpiarCampos() {

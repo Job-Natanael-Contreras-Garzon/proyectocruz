@@ -3,6 +3,7 @@ import { ProveedoresService } from '../../services/proveedores.service';
 import { Proveedores } from '../interfaces/proveedores';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BitacoraService } from '../../services/bitacora.service';
 
 
 
@@ -18,6 +19,7 @@ export class ProveedorComponent implements OnInit{
     private toastr: ToastrService,
     private aRouter: ActivatedRoute,
     private router: Router,
+    private _bitacoraServices:BitacoraService
   ){
     //console.log(aRouter.snapshot.paramMap.get('codigo'));
     
@@ -42,6 +44,7 @@ export class ProveedorComponent implements OnInit{
     this._proveedorServices.deleteProveedor(codigo).subscribe(()=>{
       this.getListProveeedores();
       this.toastr.warning('El Proveedor fue eliminado con Exito','Proveedor eliminado');
+      this._bitacoraServices.ActualizarBitacora("Elimino un Proveedor");
     })
   }
 
