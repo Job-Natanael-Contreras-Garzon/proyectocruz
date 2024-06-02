@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { callNuevaBitacora, obtenerBitacoras } from '../models/bitacora';
 
 export const newBitacora = async (req:Request, res: Response) => {
-    const {username,IP,FechaHora,descripcion} = req.body;
+    const {nombre_usuario,ip,fechahora,descripcion} = req.body;  
     try {
-        await callNuevaBitacora(username,IP,FechaHora,descripcion);
+        await callNuevaBitacora(nombre_usuario,ip,fechahora,descripcion);
         res.json({
             msg: `Bitacora Añadida`,
         })

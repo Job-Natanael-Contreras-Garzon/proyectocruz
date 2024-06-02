@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BitacoraService } from '../../services/bitacora.service';
+import { Bitacora } from '../interfaces/bitacora';
 
 @Component({
   selector: 'app-bitacora',
@@ -7,17 +8,15 @@ import { BitacoraService } from '../../services/bitacora.service';
   styleUrls: ['./bitacora.component.css']
 })
 export class BitacoraComponent implements OnInit{
-
-  constructor(private bitacoraService: BitacoraService) { }
+  
+  constructor(private _bitacoraService: BitacoraService) { }
   ngOnInit(): void {
     //this.registrarAccion();
-    this.parseRegistros();
+    this.getListBitacora();
   }
 
-  nombreusuario:string='Sebas';
-  accion:string='Inicio secion';
 
-  registrosObjeto: any[] = [];
+  listBitacora: Bitacora[] = [];
 
   registros: string[] = [
     '1,Mark,192.228.15.57,2024-06-01, Lorem ipsum dolor sit amet',
@@ -25,37 +24,29 @@ export class BitacoraComponent implements OnInit{
     '3,Larry,,2024-06-03, Vestibulum at eros'
   ];
 
-  parseRegistros() {
-    this.registrosObjeto = this.registros.map(registro => {
-      const partes = registro.split(',');
-      return {
-        '#': partes[0],
-        'Usuario': partes[1],
-        'Ip': partes[2],
-        'Fecha y hora': partes[3],
-        'Descripción': partes[4]
-      };
-    });
-  }
-
   filtrar() {
     const filtroNombre = (document.getElementById('filtroNombre') as HTMLInputElement).value.toLowerCase(); 
     const filtroFecha = (document.getElementById('filtroFecha') as HTMLInputElement).value;
   
     if(filtroNombre!="" || filtroFecha!=""){
       // Realizar el filtrado en base a registrosObjeto
-    this.registrosObjeto = this.registrosObjeto.filter(registro => {
-      const nombre = registro.Usuario.toLowerCase();
-      const fecha = registro['Fecha y hora'];
+    this.listBitacora = this.listBitacora.filter(data => {
+      const nombre = data.nombre_usuario.toLowerCase();
+      const fecha = data.fechahora;
       const cumpleNombre = nombre.includes(filtroNombre);
       const cumpleFecha = filtroFecha ? fecha === filtroFecha : true;
       return cumpleNombre && cumpleFecha;
     });
     }else{
-      this.parseRegistros();
+      this.getListBitacora();
     } 
   }
 
+  getListBitacora(): void{
+    this._bitacoraService.getBitacora().subscribe((data:Bitacora[])=>{
+      this.listBitacora=data;      
+    })
+  }
 
   /*registrarAccion() {
     this.bitacoraService.obtenerDireccionIP().subscribe(

@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBitacora = exports.newBitacora = void 0;
 const bitacora_1 = require("../models/bitacora");
 const newBitacora = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, IP, FechaHora, descripcion } = req.body;
+    const { nombre_usuario, ip, fechahora, descripcion } = req.body;
     try {
-        yield (0, bitacora_1.callNuevaBitacora)(username, IP, FechaHora, descripcion);
+        yield (0, bitacora_1.callNuevaBitacora)(nombre_usuario, ip, fechahora, descripcion);
         res.json({
             msg: `Bitacora Añadida`,
         });

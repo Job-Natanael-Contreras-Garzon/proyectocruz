@@ -7,6 +7,7 @@ import { ErrorService } from '../../services/error.service';
 import { Product } from '../interfaces/product';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PermisosService } from '../../services/permisos.service';
+import { BitacoraService } from '../../services/bitacora.service';
 
 
 
@@ -35,7 +36,8 @@ export class ProductoComponent implements OnInit{
     private _productService: ProductoService,
     private router: Router,
     private _permiso:PermisosService,
-    private _errorServices: ErrorService){ }
+    private _errorServices: ErrorService,
+    private _bitacoraServices: BitacoraService){ }
 
   ngOnInit(): void {
     this.getListProduct();
@@ -62,7 +64,7 @@ export class ProductoComponent implements OnInit{
     }
 
 
-    console.log(product);
+    //console.log(product);
     
     if (!(this.productoValido())) {
       this.toastr.error("Por favor, complete todos los campos.",'Error');
@@ -83,6 +85,7 @@ export class ProductoComponent implements OnInit{
         } 
       );
       this.RegUp=false;
+      this._bitacoraServices.ActualizarBitacora("Actualizo un Producto");
     }else{
       this._productService.newProduct(product).subscribe(
         (data: any) => {
@@ -96,6 +99,7 @@ export class ProductoComponent implements OnInit{
           this._errorServices.msjError(error);
         } 
       );
+      this._bitacoraServices.ActualizarBitacora("Registro un Nuevo Producto");
     }
 
     
@@ -120,6 +124,7 @@ export class ProductoComponent implements OnInit{
     this._productService.deleteProduct(cod).subscribe(()=>{
       this.toastr.warning('Eliminado con Existo')
       this.getListProduct();
+      this._bitacoraServices.ActualizarBitacora("Elimino un Producto");
     })
   }
 

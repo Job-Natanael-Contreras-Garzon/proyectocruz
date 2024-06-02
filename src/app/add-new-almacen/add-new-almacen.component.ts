@@ -4,6 +4,7 @@ import { AlmacenServices } from '../../services/almacen.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Almacen } from '../interfaces/almacen';
+import { BitacoraService } from '../../services/bitacora.service';
 
 @Component({
   selector: 'app-add-new-almacen',
@@ -23,6 +24,7 @@ export class AddNewAlmacenComponent implements OnInit{
     private toastr: ToastrService,
     private aRouter: ActivatedRoute,
     private router: Router,
+    private _bitacoraServices:BitacoraService
   ){
     this.AlmacenForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -33,8 +35,6 @@ export class AddNewAlmacenComponent implements OnInit{
     });
 
     this.id = Number(this.aRouter.snapshot.paramMap.get('id'));
-    //console.log(this.id);
-    
   }
   
   ngOnInit(): void {
@@ -60,12 +60,14 @@ export class AddNewAlmacenComponent implements OnInit{
       almacen.id=this.id;
       this._almacenServices.UpdateAlmacen(this.id,almacen).subscribe(()=>{
         this.toastr.success(`El Proveedor ${almacenData.nombre} fue actualizado con exito`,'Almacen Actualizado'); 
+        this._bitacoraServices.ActualizarBitacora("Actualizo los datos de un Almacen");
         this.router.navigate(['home/almacen']);
       })
     }else{
       //agregar
       this._almacenServices.newAlmacen(almacen).subscribe(()=>{
         this.toastr.success(`El Proveedor ${almacenData.nombre} fue registrado con exito`,'Almacen Registrado');
+        this._bitacoraServices.ActualizarBitacora("Registro los datos de un nuevo Almacen");
         this.router.navigate(['home/almacen']);
       })
     }
