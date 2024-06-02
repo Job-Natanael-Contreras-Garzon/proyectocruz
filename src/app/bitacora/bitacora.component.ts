@@ -44,6 +44,8 @@ export class BitacoraComponent implements OnInit{
 
   getListBitacora(): void{
     this._bitacoraService.getBitacora().subscribe((data:Bitacora[])=>{
+      console.log(data);
+      
       this.listBitacora=data;      
     })
   }
