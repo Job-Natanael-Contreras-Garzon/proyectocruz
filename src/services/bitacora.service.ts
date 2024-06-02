@@ -22,7 +22,6 @@ export class BitacoraService {
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = 'api/bitacora';
     this.OptenerIP()
-    this.getUsernameFromToken()
   }
 
 
