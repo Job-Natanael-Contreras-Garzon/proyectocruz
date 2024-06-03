@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BitacoraService } from '../../services/bitacora.service';
 import { Bitacora } from '../interfaces/bitacora';
+import { raceWith } from 'rxjs';
 
 @Component({
   selector: 'app-bitacora',
@@ -15,20 +16,17 @@ export class BitacoraComponent implements OnInit{
     this.getListBitacora();
   }
 
-
   listBitacora: Bitacora[] = [];
 
-  registros: string[] = [
-    '1,Mark,192.228.15.57,2024-06-01, Lorem ipsum dolor sit amet',
-    '2,Jacob,,2024-06-02, Consectetur adipiscing elit',
-    '3,Larry,,2024-06-03, Vestibulum at eros'
-  ];
+  filtro() {
+    this.getListBitacora().then(() => {
+      this.filtrar();
+    });
+  }
 
   filtrar() {
     const filtroNombre = (document.getElementById('filtroNombre') as HTMLInputElement).value.toLowerCase(); 
     const filtroFechaInput = (document.getElementById('filtroFecha') as HTMLInputElement).value;
-    console.log(filtroFechaInput);
-    
     
     if (filtroNombre !== "" || filtroFechaInput !== "") {
       const filtroFecha = filtroFechaInput;
@@ -40,9 +38,10 @@ export class BitacoraComponent implements OnInit{
         return cumpleNombre && cumpleFecha;
       });
     } else {
-      this.getListBitacora();
+      this.getListBitacora(); 
     } 
   };
+  
   
   
   convertirFecha(fechaString: string | undefined): string {
@@ -77,21 +76,14 @@ export class BitacoraComponent implements OnInit{
     return num < 10 ? `0${num}` : `${num}`;
   }
   
-  getListBitacora(): void{
-    this._bitacoraService.getBitacora().subscribe((data:Bitacora[])=>{
-      this.listBitacora=data;      
-    })
+  getListBitacora(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._bitacoraService.getBitacora().subscribe((data: Bitacora[]) => {
+        this.listBitacora = data;
+        resolve(); // Resuelve la promesa una vez que se hayan cargado los datos
+      });
+    });
   }
 
-  /*registrarAccion() {
-    this.bitacoraService.obtenerDireccionIP().subscribe(
-      response => {
-        console.log('Actividad registrada:', response);
-      },
-      error => {
-        console.error('Error al registrar actividad:', error);
-      }
-    );
-  }
-  */
 }
+
