@@ -26,22 +26,57 @@ export class BitacoraComponent implements OnInit{
 
   filtrar() {
     const filtroNombre = (document.getElementById('filtroNombre') as HTMLInputElement).value.toLowerCase(); 
-    const filtroFecha = (document.getElementById('filtroFecha') as HTMLInputElement).value;
-  
-    if(filtroNombre!="" || filtroFecha!=""){
-      // Realizar el filtrado en base a registrosObjeto
-    this.listBitacora = this.listBitacora.filter(data => {
-      const nombre = data.nombre_usuario.toLowerCase();
-      const fecha = data.fechahora;
-      const cumpleNombre = nombre.includes(filtroNombre);
-      const cumpleFecha = filtroFecha ? fecha === filtroFecha : true;
-      return cumpleNombre && cumpleFecha;
-    });
-    }else{
+    const filtroFechaInput = (document.getElementById('filtroFecha') as HTMLInputElement).value;
+    console.log(filtroFechaInput);
+    
+    
+    if (filtroNombre !== "" || filtroFechaInput !== "") {
+      const filtroFecha = filtroFechaInput;
+      this.listBitacora = this.listBitacora.filter(data => {
+        const nombre = data.nombre_usuario.toLowerCase();       
+        const fecha = data.fechahora ? this.convertirFecha(data.fechahora) : undefined;       
+        const cumpleNombre = nombre.includes(filtroNombre);
+        const cumpleFecha = filtroFecha ? fecha === filtroFecha : true;
+        return cumpleNombre && cumpleFecha;
+      });
+    } else {
       this.getListBitacora();
     } 
+  };
+  
+  
+  convertirFecha(fechaString: string | undefined): string {
+    if (!fechaString || typeof fechaString !== 'string') {
+      return ''; // O puedes manejar esto según tu lógica
+    }
+  
+    const parts = fechaString.split(" ");
+    if (parts.length !== 2) {
+      return ''; // O puedes manejar esto según tu lógica
+    }
+  
+    const [fecha, hora] = parts;
+    const fechaParts = fecha.split("/");
+    const horaParts = hora.split(":");
+    
+    if (fechaParts.length !== 3 || horaParts.length !== 3) {
+      return ''; // O puedes manejar esto según tu lógica
+    }
+  
+    const [dia, mes, año] = fechaParts;
+    const [horaNum, minuto, segundo] = horaParts;
+    const fechaFormateada = new Date(`${mes}/${dia}/${año} ${horaNum}:${minuto}:${segundo}`);
+    
+    // Formatear la fecha sin la hora y la zona horaria
+    const fechaFormateadaSinHora = `${fechaFormateada.getFullYear()}-${this.padZero(fechaFormateada.getMonth() + 1)}-${this.padZero(fechaFormateada.getDate())}`;
+    
+    return fechaFormateadaSinHora;
   }
-
+  
+  padZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
+  }
+  
   getListBitacora(): void{
     this._bitacoraService.getBitacora().subscribe((data:Bitacora[])=>{
       this.listBitacora=data;      
@@ -60,4 +95,3 @@ export class BitacoraComponent implements OnInit{
   }
   */
 }
-
