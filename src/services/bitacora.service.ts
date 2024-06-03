@@ -21,8 +21,7 @@ export class BitacoraService {
   ) {
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = 'api/bitacora';
-    this.OptenerIP()
-    this.getUsernameFromToken()
+    this.OptenerIP();
   }
 
 
@@ -74,6 +73,7 @@ export class BitacoraService {
   }
 
   ActualizarBitacora(descripcion:string){
+    this.OptenerIP();
     this.getUsernameFromToken()
     const bitacora:Bitacora={
       nombre_usuario:this.username,

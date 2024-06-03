@@ -46,8 +46,6 @@ export class MenuComponent {
     this._permiso.perm$.subscribe((permiso: string | undefined) => {
       this.perm = permiso;
     });
-
-    this.getUsernameFromToken();
   }
   
   
