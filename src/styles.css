@@ -1,5 +1,5 @@
 * {
-    box-sizing: border-box;
+    
     margin: 0;
     padding: 0;
 }
@@ -11,6 +11,7 @@ html, body {
     color: #333;
     font-family: "Quicksand";
     background: linear-gradient(to right bottom, #ffad42, #903bff);
+    box-sizing: border-box;
 }
 
 body {
@@ -27,14 +28,13 @@ body {
     position: absolute;
     background: rgba(255, 255, 255, 0.1);
     transform: rotate(45deg);
-    pointer-events: none;
 }
 .square.square-tl{
     top: -80%;
     left: -10%;
     animation: bounce 6s infinite ease-in-out;
     background: rgb(34, 34, 34, 0.1);
-    /* z-index: 50; */
+    z-index: 50;
 }
 .square.square-tr{
     top: 0%;
