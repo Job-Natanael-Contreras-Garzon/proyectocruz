@@ -1,31 +1,27 @@
-<<<<<<< HEAD
 /* Estilos CSS personalizados */
 body {
-    font-family: Arial, sans-serif;
-  }
-  
-  .table-minimalista th,
-  .table-minimalista td {
-    border: none;
-  }
-  
-  .table-minimalista th {
-    background-color: #f2f2f2;
-    font-weight: 500;
-  }
-  
-  .table-minimalista tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .table-minimalista tbody tr:hover {
-    background-color: #792c2c;
-  }
-  
-  /* Espaciar más los botones */
-  .btn-separado {
-    margin-right: 10px; /* Espacio a la derecha de cada botón */
-  }
-  
-=======
->>>>>>> 0ca87c07bde26b6f433f5fcd2dba2752444eec15
+  font-family: Arial, sans-serif;
+}
+
+.table-minimalista th,
+.table-minimalista td {
+  border: none;
+}
+
+.table-minimalista th {
+  background-color: #f2f2f2;
+  font-weight: 500;
+}
+
+.table-minimalista tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table-minimalista tbody tr:hover {
+  background-color: #792c2c;
+}
+
+/* Espaciar más los botones */
+.btn-separado {
+  margin-right: 10px; /* Espacio a la derecha de cada botón */
+}
