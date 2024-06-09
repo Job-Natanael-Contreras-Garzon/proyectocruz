@@ -46,8 +46,6 @@ export class MenuComponent {
     this._permiso.perm$.subscribe((permiso: string | undefined) => {
       this.perm = permiso;
     });
-
-    this.getUsernameFromToken();
   }
   
   
@@ -110,6 +108,10 @@ export class MenuComponent {
 
   bitacora(){
     this.router.navigate(['/home/bitacora']);
+  }
+
+  NotaSalida(){
+    this.router.navigate(['/home/notasalida']);
   }
 
 }

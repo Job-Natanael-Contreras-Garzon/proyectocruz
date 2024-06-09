@@ -21,6 +21,11 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 import { AddNewProveedorComponent } from './add-new-proveedor/add-new-proveedor.component';
 import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
+import { FacturaComponent } from './factura/factura.component';
+import { FormVentaComponent } from './form-venta/form-venta.component';
+import { NewInventarioComponent } from './new-inventario/new-inventario.component';
+import { NotaSalidaComponent } from './nota-salida/nota-salida.component';
+import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-salida.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,12 @@ import { BitacoraComponent } from './bitacora/bitacora.component';
     NewPasswordComponent,
     AddNewProveedorComponent,
     AddNewAlmacenComponent,
-    BitacoraComponent,    
+    BitacoraComponent,
+    FacturaComponent,
+    FormVentaComponent,
+    NewInventarioComponent,
+    NotaSalidaComponent,
+    UpdNewNotaSalidaComponent,    
   ],
   imports: [
     BrowserModule,

@@ -59,15 +59,15 @@ export class AddNewAlmacenComponent implements OnInit{
       //modificar
       almacen.id=this.id;
       this._almacenServices.UpdateAlmacen(this.id,almacen).subscribe(()=>{
-        this.toastr.success(`El Proveedor ${almacenData.nombre} fue actualizado con exito`,'Almacen Actualizado'); 
-        this._bitacoraServices.ActualizarBitacora("Actualizo los datos de un Almacen");
+        this.toastr.success(`El Almacen ${almacenData.nombre} fue actualizado con exito`,'Almacen Actualizado'); 
+        this._bitacoraServices.ActualizarBitacora(`Actualizo los datos del Almacen: ${almacenData.nombre}`);
         this.router.navigate(['home/almacen']);
       })
     }else{
       //agregar
       this._almacenServices.newAlmacen(almacen).subscribe(()=>{
-        this.toastr.success(`El Proveedor ${almacenData.nombre} fue registrado con exito`,'Almacen Registrado');
-        this._bitacoraServices.ActualizarBitacora("Registro los datos de un nuevo Almacen");
+        this.toastr.success(`El Almacen ${almacenData.nombre} fue registrado con exito`,'Almacen Registrado');
+        this._bitacoraServices.ActualizarBitacora(`Registro los datos de un nuevo Almacen: ${almacenData.nombre}`);
         this.router.navigate(['home/almacen']);
       })
     }

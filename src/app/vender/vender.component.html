@@ -1,77 +1,35 @@
-<div >
-  <h1>Formulario de venta</h1>
-
-  <form class=".container">
-    <div class="parent">
-      <div class="div1"> 
-      
-     
-    <h2>Información del cliente</h2>
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
-
-    <label for="email">Correo electrónico:</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="telefono">Teléfono:</label>
-    <input type="tel" id="telefono" name="telefono">
-
-    <h2>Método de pago</h2>
-    <label for="metodoPago">Método de pago:</label>
-    <select id="metodoPago" name="metodoPago" required>
-      <option value="">Seleccione un método de pago</option>
-      <option value="efectivo">Efectivo</option>
-      <option value="QR">QR</option>
-    </select>
-
-  </div>
-
-    
-    <div class="div2"> 
-      <h2>Selección de productos</h2>
-      <select id="producto" name="producto" #producto>
-        <option value="">Seleccione un producto</option>
-        <option value="Capuchon de triceta">Capuchon de triceta - $100</option>
-        <option value="producto2">Producto 2 - $50</option>
-        <option value="producto3">Producto 3 - $75</option>
-      </select>
-  
-      <label for="cantidad">Cantidad:</label>
-      <input type="number" id="cantidad" name="cantidad" min="1" value="1">
-  
-      <button type="button" (click)="agregarProducto(producto.value)">Agregar producto</button>
-      
-    <table id="productosSeleccionados">
-      <thead>
-        <tr>
-          <th>Eliminar</th>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
-          <th>Subtotal</th>
+<h2 class="text-center">Facturas</h2>
+<div class="table-responsive">
+  <table id="tablaDatos" class="table table-bordered table-minimalista">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nro Factura</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Administrador</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Método de Pago</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let listP of listfactura">
+        <tr *ngIf="listP">
+          <th scope="row">{{ listP.codigo_factura !== undefined ? listP.codigo_factura - 1000 : '' }}</th>
+          <td>{{ listP.codigo_factura }}</td>
+          <td>{{ listP.nombre_cliente }}</td>
+          <td>{{ listP.nombre_usuario }}</td>
+          <td>{{ listP.fecha }}</td>
+          <td>{{ listP.metodo_pago_nombre }}</td>
+          <td>{{ listP.total }}</td>
+          <td>
+            <button *ngIf="permiso!='C'" (click)="deleteFactura(listP.codigo_factura!)" type="button" class="btn btn-primary btn-sm btn-separado">Eliminar</button>
+            <button *ngIf="permiso!='C'" routerLink="/home/factura/{{listP.codigo_factura}}" type="button" class="btn btn-primary btn-sm btn-separado">Detalles</button>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let producto of productos; let i = index">
-          <td><input type="checkbox" name="eliminar" value="{{i}}" /></td>
-          <td>{{ producto.producto }}</td>
-          <td>{{ producto.cantidad }}</td>
-          <td>{{ producto.precio.toFixed(2) }}</td>
-          <td>{{ producto.subtotal.toFixed(2) }}</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="4">Total</td>
-          <td id="total">0</td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <button type="button" (click)="eliminarProductos()">Eliminar producto</button>
-
-    <button type="submit">Enviar pedido</button>
-  </div>
-  </div>
-  </form>
+      </ng-container>
+    </tbody>
+  </table>
 </div>
+
+<button routerLink="/home/formventa" type="button" class="btn btn-primary btn-sm btn-separado">Insertar</button>

@@ -1,9 +1,11 @@
 export interface Factura{  
-    cod?:number,
+    codigo_factura?:number,
+    ci_cliente:number
     nombre_cliente: string, 
     correo_cliente: string, 
-    nombre_admin: string, 
-    metodo_pago: string, 
-    nombre_categoria_producto: string, 
-    cantidad: number
+    telefono_cliente:string,
+    nombre_usuario: string, 
+    metodo_pago_nombre: string, 
+    fecha?:Date,
+    total?:number,
 }

@@ -17,7 +17,6 @@ export class ProductoService {
    }
 
    newProduct(producto: Product):Observable<void>{
-      console.log(producto.fecha_vencimiento);
       return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}/newProduct`,producto);
    }
 
