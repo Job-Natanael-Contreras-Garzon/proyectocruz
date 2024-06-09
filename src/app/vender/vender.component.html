@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <h2 class="text-center">Facturas</h2>
 <div class="table-responsive">
   <table id="tablaDatos" class="table table-bordered table-minimalista">
@@ -27,59 +26,6 @@
             <button *ngIf="permiso!='C'" (click)="deleteFactura(listP.codigo_factura!)" type="button" class="btn btn-primary btn-sm btn-separado">Eliminar</button>
             <button *ngIf="permiso!='C'" routerLink="/home/factura/{{listP.codigo_factura}}" type="button" class="btn btn-primary btn-sm btn-separado">Detalles</button>
           </td>
-=======
-<div class="vender-app">
-  <h1>Formulario de venta</h1>
-
-  <form class="container-form">
-    <div class="content-vender">
-      <div class="vender-div1"> 
-      
-     
-    <h2>Información del cliente</h2>
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
-
-    <label for="email">Correo electrónico:</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="telefono">Teléfono:</label>
-    <input type="tel" id="telefono" name="telefono">
-
-    <h2>Método de pago</h2>
-    <label for="metodoPago">Método de pago:</label>
-    <select id="metodoPago" name="metodoPago" required>
-      <option value="">Seleccione un método de pago</option>
-      <option value="efectivo">Efectivo</option>
-      <option value="QR">QR</option>
-    </select>
-
-  </div>
-
-    
-    <div class="vender-div2"> 
-      <h2>Selección de productos</h2>
-      <select id="producto" name="producto" #producto>
-        <option value="">Seleccione un producto</option>
-        <option value="Capuchon de triceta">Capuchon de triceta - $100</option>
-        <option value="producto2">Producto 2 - $50</option>
-        <option value="producto3">Producto 3 - $75</option>
-      </select>
-  
-      <label for="cantidad">Cantidad:</label>
-      <input type="number" id="cantidad" name="cantidad" min="1" value="1">
-  
-      <button type="button" (click)="agregarProducto(producto.value)">Agregar producto</button>
-      
-    <table id="productosSeleccionados">
-      <thead>
-        <tr>
-          <th>Eliminar</th>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
-          <th>Subtotal</th>
->>>>>>> 0ca87c07bde26b6f433f5fcd2dba2752444eec15
         </tr>
       </ng-container>
     </tbody>
