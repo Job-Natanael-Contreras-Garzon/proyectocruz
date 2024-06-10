@@ -12,6 +12,12 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 import { AddNewProveedorComponent } from './add-new-proveedor/add-new-proveedor.component';
 import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
+import { FormVentaComponent } from './form-venta/form-venta.component';
+import { FacturaComponent } from './factura/factura.component';
+import { InventarioComponent } from './inventario/inventario.component';
+import { NewInventarioComponent } from './new-inventario/new-inventario.component';
+import { NotaSalidaComponent } from './nota-salida/nota-salida.component';
+import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-salida.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login',pathMatch:'full'},
@@ -22,6 +28,8 @@ const routes: Routes = [
     { path: 'almacen', component: AlmacenesComponent },// Ruta para el componente de almacenes 
     { path: 'proveedores', component: ProveedorComponent },
     { path: 'vender', component : VenderComponent }, 
+    { path: 'formventa', component : FormVentaComponent }, 
+    { path: 'factura/:codigo', component : FacturaComponent }, 
     { path: 'productos', component : ProductoComponent },  
     { path: 'registro', component : SignInComponent },
     { path: 'newPassword', component : NewPasswordComponent},
@@ -30,6 +38,11 @@ const routes: Routes = [
     { path: 'addAlma', component : AddNewAlmacenComponent},
     { path: 'editAlma/:id', component : AddNewAlmacenComponent},
     { path: 'bitacora', component : BitacoraComponent},
+    { path: 'inventario', component : InventarioComponent},
+    { path: 'newInventario', component : NewInventarioComponent},
+    { path: 'notasalida', component : NotaSalidaComponent},
+    { path: 'Newnotasalida', component : UpdNewNotaSalidaComponent},
+    { path: 'Updnotasalida/:cod', component : UpdNewNotaSalidaComponent},
   ]},
   { path: '**',redirectTo: 'login',pathMatch:'full'},
 ];

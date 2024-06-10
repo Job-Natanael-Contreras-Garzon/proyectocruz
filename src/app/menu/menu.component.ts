@@ -110,4 +110,8 @@ export class MenuComponent {
     this.router.navigate(['/home/bitacora']);
   }
 
+  NotaSalida(){
+    this.router.navigate(['/home/notasalida']);
+  }
+
 }

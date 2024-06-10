@@ -84,7 +84,6 @@ export class AddNewProveedorComponent implements OnInit{
 
   getProveedor(codigo:number){
     this._proveedorServices.getProveedor(codigo).subscribe((data:Proveedores)=>{
-      //console.log(data);
       this.nombre=data.nombre;
       this.direccion=data.direccion;
       this.telefono=data.telefono;

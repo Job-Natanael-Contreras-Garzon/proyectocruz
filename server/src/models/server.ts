@@ -6,6 +6,8 @@ import routerfactura from '../routes/factura';
 import routerproveedor from '../routes/proveedor';
 import routeralmacen from '../routes/almacen';
 import routerbitacora from '../routes/bitacora';
+import routerinventario from '../routes/inventario';
+import routernotasalida from '../routes/nota_salida';
 import { User } from "./User";
 
 
@@ -35,6 +37,8 @@ class Server{
         this.app.use('/api/proveedor',routerproveedor);
         this.app.use('/api/almacen',routeralmacen);
         this.app.use('/api/bitacora',routerbitacora);
+        this.app.use('/api/inventario',routerinventario);
+        this.app.use('/api/notasalida',routernotasalida);
     }
 
     midlewares(){

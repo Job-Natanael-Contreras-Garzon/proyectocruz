@@ -6,6 +6,18 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script>
+        function printDiv(divId) {
+          // Agregar la clase "printable" al div que queremos imprimir
+          var divToPrint = document.querySelector('.' + divId);
+          divToPrint.classList.add('printable');
+          // Imprimir el div
+          window.print();
+          // Eliminar la clase "printable" después de imprimir
+          divToPrint.classList.remove('printable');
+        }
+    </script>
 </head>
 <body>
   <app-root></app-root>

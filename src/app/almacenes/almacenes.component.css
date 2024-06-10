@@ -32,6 +32,12 @@ h1, h2 {
   background-color: #eeecec;
 }
 
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
 .btn-submit {
   padding: 10px 20px;
   background-color: #28a745;
@@ -39,8 +45,7 @@ h1, h2 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  display: block;
-  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .btn-submit:hover {

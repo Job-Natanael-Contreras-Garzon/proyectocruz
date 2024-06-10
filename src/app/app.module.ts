@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,11 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 import { AddNewProveedorComponent } from './add-new-proveedor/add-new-proveedor.component';
 import { AddNewAlmacenComponent } from './add-new-almacen/add-new-almacen.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
+import { FormVentaComponent } from './form-venta/form-venta.component';
+import { FacturaComponent } from './factura/factura.component';
+import { NewInventarioComponent } from './new-inventario/new-inventario.component';
+import { NotaSalidaComponent } from './nota-salida/nota-salida.component';
+import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-salida.component';
 
 
 @NgModule({
@@ -44,7 +50,12 @@ import { BitacoraComponent } from './bitacora/bitacora.component';
     NewPasswordComponent,
     AddNewProveedorComponent,
     AddNewAlmacenComponent,
-    BitacoraComponent,    
+    BitacoraComponent,
+    FormVentaComponent,
+    FacturaComponent,
+    NewInventarioComponent,
+    NotaSalidaComponent,
+    UpdNewNotaSalidaComponent,    
   ],
   imports: [
     BrowserModule,
@@ -55,6 +66,7 @@ import { BitacoraComponent } from './bitacora/bitacora.component';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule.forRoot([]),
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',

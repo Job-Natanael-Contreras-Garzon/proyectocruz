@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertar_factura = exports.Factura = void 0;
+exports.EliminarFactura = exports.getDetalleFactura = exports.getFactura = exports.Mostrar_Factura = exports.insertar_detalle_factura = exports.insertar_factura = exports.Factura = void 0;
 const sequelize_1 = require("sequelize");
 const conexion_1 = __importDefault(require("../db/conexion"));
 exports.Factura = conexion_1.default.define('Factura', {
@@ -26,12 +26,12 @@ exports.Factura = conexion_1.default.define('Factura', {
     timestamps: false // Indica que no hay columnas 'createdAt' y 'updatedAt' en la tabla
 });
 //Llamada de los procedimientos almacenador
-function insertar_factura(nombre_cliente, correo_cliente, ci_cliente, telefono_cliente, nombre_admin, metodo_pago, nombre_categoria_producto, cantidad) {
+function insertar_factura(ci_cliente, nombre_cliente, correo_cliente, telefono_cliente, nombre_usuario, metodo_pago_nombre) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const [results, metadata] = yield conexion_1.default.query(`CALL insertar_factura('${nombre_cliente}', '${correo_cliente}', '${ci_cliente}','${telefono_cliente}','${nombre_admin}', 
-                               '${metodo_pago}', '${nombre_categoria_producto}', '${cantidad}')`);
-            //console.log(results);
+            const [results, metadata] = yield conexion_1.default.query(`SELECT * FROM insertar_factura('${ci_cliente}','${nombre_cliente}', '${correo_cliente}','${telefono_cliente}','${nombre_usuario}', 
+                               '${metodo_pago_nombre}')`);
+            return results;
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
@@ -39,3 +39,65 @@ function insertar_factura(nombre_cliente, correo_cliente, ci_cliente, telefono_c
     });
 }
 exports.insertar_factura = insertar_factura;
+function insertar_detalle_factura(codigo_factura, categoria_producto_nombre, cantidad_producto) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [results, metadata] = yield conexion_1.default.query(`CALL insertar_detalles_factura('${codigo_factura}','${categoria_producto_nombre}', '${cantidad_producto}')`);
+        }
+        catch (error) {
+            console.error('Error al llamar al procedimiento almacenado:', error);
+        }
+    });
+}
+exports.insertar_detalle_factura = insertar_detalle_factura;
+function Mostrar_Factura() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [results, metadata] = yield conexion_1.default.query(`SELECT * FROM mostrar_facturas()`);
+            return results;
+        }
+        catch (error) {
+            console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
+        }
+    });
+}
+exports.Mostrar_Factura = Mostrar_Factura;
+function getFactura(codigo_factura) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [results, metadata] = yield conexion_1.default.query(`SELECT * FROM getfactura('${codigo_factura}')`);
+            return results;
+        }
+        catch (error) {
+            console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
+        }
+    });
+}
+exports.getFactura = getFactura;
+function getDetalleFactura(codigo_factura) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [results, metadata] = yield conexion_1.default.query(`SELECT * FROM mostrar_detalles_factura('${codigo_factura}')`);
+            return results;
+        }
+        catch (error) {
+            console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
+        }
+    });
+}
+exports.getDetalleFactura = getDetalleFactura;
+function EliminarFactura(codigo_factura) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [results, metadata] = yield conexion_1.default.query(`CALL eliminar_factura('${codigo_factura}')`);
+        }
+        catch (error) {
+            console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
+        }
+    });
+}
+exports.EliminarFactura = EliminarFactura;
