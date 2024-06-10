@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product } from '../interfaces/product';
 import { ProductoService } from '../../services/producto.service';
 import { ToastrService } from 'ngx-toastr';
@@ -42,6 +42,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
   cod_detalleNotaSalida: number=0;
   constructor(
     private _productServices: ProductoService,
+    private router: Router,
     private toastr: ToastrService,
     private _NotaSalidaServices: NotaSalidaService,
     private aRouter: ActivatedRoute,
@@ -149,7 +150,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
         this.toastr.success("Nota de salida creada con existo","Nota de salida Creada")
       })
     }
-    
+    this.router.navigate(['/home/notasalida']);
   }
 
   
