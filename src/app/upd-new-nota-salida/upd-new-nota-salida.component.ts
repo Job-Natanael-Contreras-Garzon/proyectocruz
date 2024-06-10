@@ -140,20 +140,19 @@ export class UpdNewNotaSalidaComponent implements OnInit{
 
       this._NotaSalidaServices.UpdateNotaSalida(this.cod,notasalida).subscribe(()=>{
         this.toastr.success(`Nota de salida: ${this.cod} Actualizada con existo`,"Nota de salida Actualizada")
-      })
-      
+        this.router.navigate(['/home/notasalida']);
+      })  
      this.detNotaSalida();
     }else{
       this._NotaSalidaServices.newNotaSalida(notasalida).subscribe((data: number)=>{
         this.cod_salida=data;
         this.detNotaSalida()
         this.toastr.success("Nota de salida creada con existo","Nota de salida Creada")
+        this.router.navigate(['/home/notasalida']);
       })
+      
     }
-    this.router.navigate(['/home/notasalida']);
   }
-
-  
 
   detNotaSalida() {
     if (this.cod != 0) {
