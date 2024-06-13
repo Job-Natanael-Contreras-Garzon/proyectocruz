@@ -114,7 +114,7 @@ export class SignInComponent implements OnInit {
       (data: any) => {
         // Manejar la respuesta exitosa aquí
         
-        this.InsertarPermisos();
+        
 
         this.toastr.success('Usuario Creado con exito','Usuario Creado')
         this.limpiarCampos();
@@ -125,6 +125,7 @@ export class SignInComponent implements OnInit {
       } 
     );
     this._bitacoraServices.ActualizarBitacora(`Creó el Nuevo Usuario: ${user.username}`);
+    this.InsertarPermisos();
   }
 
   limpiarCampos() {
