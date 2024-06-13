@@ -124,6 +124,7 @@ export class FormVentaComponent implements OnInit{
           this.codfact = codFactura;    
           this.detalleFact();
           this.toastr.success('Factura Añadida con Exito','Factura Añadida')  
+          this._bitacoraServices.ActualizarBitacora(`Creó la factura del cliente ${this.nombreCliente}`)
         })
        
   }

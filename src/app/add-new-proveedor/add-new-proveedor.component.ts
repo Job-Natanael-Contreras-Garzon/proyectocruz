@@ -66,15 +66,15 @@ export class AddNewProveedorComponent implements OnInit{
       //modificar
       proveedor.codigo=this.codigo;
       this._proveedorServices.UpdateProveedor(this.codigo,proveedor).subscribe(()=>{
-        this.toastr.success(`El Proveedor ${this.nombre} fue actualizado con exito`,'Proveedor Actualizado'); 
-        this._bitacoraServices.ActualizarBitacora("Actualizo los datos de un Proveedor");
+        this.toastr.success(`El Proveedor: ${proveedor.nombre}, fue actualizado con exito`,'Proveedor Actualizado'); 
+        this._bitacoraServices.ActualizarBitacora(`Actualizo los datos del Proveedor: ${proveedor.nombre}`);
         this.router.navigate(['home/proveedores']);
       })
     }else{
       //agregar
       this._proveedorServices.newProveedor(proveedor).subscribe(()=>{
-        this.toastr.success(`El Proveedor ${this.nombre} fue registrado con exito`,'Proveedor Registrado');
-        this._bitacoraServices.ActualizarBitacora("Registro los Datos de un Nuevo Proveedor");
+        this.toastr.success(`El Proveedor: ${proveedor.nombre}, fue registrado con exito`,'Proveedor Registrado');
+        this._bitacoraServices.ActualizarBitacora(`Registro los Datos del Nuevo Proveedor: ${proveedor.nombre}`);
         this.router.navigate(['home/proveedores']);
       })
     }

@@ -32,6 +32,7 @@ import { FacturaComponent } from './factura/factura.component';
 import { NewInventarioComponent } from './new-inventario/new-inventario.component';
 import { NotaSalidaComponent } from './nota-salida/nota-salida.component';
 import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-salida.component';
+import { SessionLostComponent } from './session-lost/session-lost.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-sa
     FacturaComponent,
     NewInventarioComponent,
     NotaSalidaComponent,
-    UpdNewNotaSalidaComponent,    
+    UpdNewNotaSalidaComponent,
+    SessionLostComponent,    
   ],
   imports: [
     BrowserModule,

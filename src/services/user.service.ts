@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private myAppUrl: string;
-  private myApiUrl: string;
+  private myAppUrl: String;
+  private myApiUrl: String;
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint;
@@ -18,18 +18,16 @@ export class UserService {
   }
 
   newUser(user: User):Observable<string> {
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`, user);
+    //console.log(user);
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`,user);
   }
 
   newPassword(user: User):Observable<string> {
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newPassword`, user);
+    //console.log(user);
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newPassword`,user);
   }
 
   login(user: User):Observable<string> {
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`, user);
-  }
-
-  UserPerm(user: User):Observable<User[]> {
-    return this.http.post<User[]>(`${this.myAppUrl}${this.myApiUrl}/permiso`, user);
+    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`,user);
   }
 }

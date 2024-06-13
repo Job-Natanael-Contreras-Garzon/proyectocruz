@@ -6,6 +6,7 @@ import { Almacen } from '../interfaces/almacen';
 import { AlmacenServices } from '../../services/almacen.service';
 import { Inventario } from '../interfaces/inventario';
 import { InventarioService } from '../../services/inventario.service';
+import { BitacoraService } from '../../services/bitacora.service';
 
 @Component({
   selector: 'app-new-inventario',
@@ -45,6 +46,7 @@ export class NewInventarioComponent implements OnInit{
     private _alamcenServices: AlmacenServices,
     private _inventarioServices: InventarioService,
     private toastr: ToastrService,
+    private _bitacoraServices: BitacoraService,
   ){
 
   }
@@ -74,7 +76,8 @@ export class NewInventarioComponent implements OnInit{
     }
 
     this._inventarioServices.newInventario(inventario).subscribe(()=>{
-      this.toastr.show("Inventario añadido con exito","Inventario añadido")
+      this.toastr.show(`Inventario del producto: ${inventario.nombre_producto} añadido con exito`,"Inventario añadido")
+      this._bitacoraServices.ActualizarBitacora(`Añadió el inventario del producto: ${inventario.nombre_producto}`);
     })
     
   }

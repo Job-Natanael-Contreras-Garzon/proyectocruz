@@ -3,6 +3,9 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from './user.service';
 import { User } from '../app/interfaces/user';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Permiso } from '../app/interfaces/permiso';
+import { environment } from '../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +13,15 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class PermisosService {
 
   username: string = '';
-  private permSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
-  perm$: Observable<string | undefined> = this.permSubject.asObservable();
+  private myAppUrl: String;
+  private myApiUrl: String;
 
   constructor(
-    private _userService: UserService,
     private toastr: ToastrService,
-  ) { }
-
-  obtenerPermisos(): void {
-    this.getUsernameFromToken();
-    this.obtenerPermisosDelUsuario();
+    private http: HttpClient
+  ) { 
+    this.myAppUrl = environment.endpoint;
+    this.myApiUrl = 'api/permisos';
   }
 
   private getUsernameFromToken(): void {
@@ -38,24 +39,17 @@ export class PermisosService {
     }
   }
 
-  private obtenerPermisosDelUsuario(): void {
-    const user: User = {
-      nombreAdministrador: '',
-      telefono: '',
-      correoElectronico: '',
-      username: this.username,
-      password: '',
-      tipoPermiso: '',
-    };
+  newPermiso(perm: Permiso):Observable<void> {
+    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}/newpermisos`,perm);
+  }
 
-    this._userService.UserPerm(user).subscribe((data: User[]) => {
-      if (data && data.length > 0) {
-        this.permSubject.next(data[0].categoria);
-      } else {
-        this.toastr.error('No se encontraron datos de categoría.', 'Error');
-        this.permSubject.next(undefined);
-      }
-    });
+  updatePermiso(perm: Permiso):Observable<void> {
+    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}/updatepermiso`,perm);
+  }
+
+  getPermiso(username:string,vista:string):Observable<Permiso[]> {
+    //console.log(username,vista); 
+    return this.http.post<Permiso[]>(`${this.myAppUrl}${this.myApiUrl}/getpermisos`,{username,vista});
   }
 
 }

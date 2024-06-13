@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../services/error.service';
 import { BitacoraService } from '../../services/bitacora.service';
+import { PermisosService } from '../../services/permisos.service';
+import { Permiso } from '../interfaces/permiso';
 
 @Component({
   selector: 'app-sign-in',
@@ -22,13 +24,67 @@ export class SignInComponent implements OnInit {
   password: string = '';
   confirm_password = '';
 
+  habilitado: boolean = false;
+  ver: boolean = false;
+  insertar: boolean = false;
+  editar: boolean = false;
+  eliminar: boolean = false;
+  listvistas: string[]=["vender","producto","proveedor","notasalida","bitacora","usuario","almacen","inventario"];
+
   constructor(private toastr: ToastrService,
     private _userServices: UserService,
+    private _permisoServices: PermisosService,
     private router: Router,
     private _errorServices: ErrorService,
     private _bitacoraServices:BitacoraService
   ){}
 
+  ngOnInit(): void {
+    
+  }
+
+  InsertarPermisos(){
+    
+    switch (this.permisos){
+      case "A":
+        this.habilitado = true;
+        this.ver = true;
+        this.insertar = true;
+        this.editar = true;
+        this.eliminar = true;
+        break;
+      case "B":
+        this.habilitado = true;
+        this.ver = true;
+        this.insertar = false;
+        this.editar = true;
+        this.eliminar = false;
+        break;
+      case "C": 
+        this.habilitado = true;
+        this.ver = true;
+        this.insertar = false;
+        this.editar = false;
+        this.eliminar = false;
+        break;
+    }
+
+    
+
+    this.listvistas.forEach((vista: string)=>{
+      const permiso: Permiso = {
+        username: this.username,
+        perm_habilitado: this.habilitado,
+        perm_insertar: this.insertar,
+        perm_editar: this.editar,
+        perm_eliminar: this.eliminar,
+        perm_ver:this.ver,
+        vista: vista
+      }
+      this._permisoServices.newPermiso(permiso).subscribe(()=>{
+      })
+    })
+  }
 
   addUser(){
     //validar campos}
@@ -50,13 +106,14 @@ export class SignInComponent implements OnInit {
       correoElectronico: this.email,
       username: this.username,
       password: this.password,
-      tipoPermiso: this.permisos,
     }
 
     this._userServices.newUser(user).subscribe(
       (data: any) => {
         // Manejar la respuesta exitosa aquí
-        localStorage.setItem('token', data.token);
+        
+        this.InsertarPermisos();
+
         this.toastr.success('Usuario Creado con exito','Usuario Creado')
         this.limpiarCampos();
       },
@@ -65,7 +122,7 @@ export class SignInComponent implements OnInit {
         this._errorServices.msjError(error);
       } 
     );
-    this._bitacoraServices.ActualizarBitacora("Creó un Nuevo Usuario");
+    this._bitacoraServices.ActualizarBitacora(`Creó el Nuevo Usuario: ${user.username}`);
   }
 
   limpiarCampos() {
@@ -79,8 +136,6 @@ export class SignInComponent implements OnInit {
   }
 
   
-  ngOnInit(): void {
-    
-  }
+  
 
 }

@@ -2,59 +2,31 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
+
 .container {
     width: 80%;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
-    border-radius: 5px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.50);
-  }
-h1 {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
     text-align: center;
     color: #333;
-  }
-
-
-form {
     margin-bottom: 20px;
 }
 
-form label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input[type="text"] {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-.error {
-    color: red;
-}
-
-button {
-    padding: 8px 16px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-button:hover {
-    background-color: #45a049;
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 table {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 th, td {
@@ -67,6 +39,67 @@ th {
     background-color: #f2f2f2;
 }
 
-input[type="checkbox"] {
-    margin-left: 5px;
+.btn {
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #008CBA;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-collapse: collapse;
+        border-spacing: 0;
+        overflow-x: auto;
+        display: block;
+    }
+
+    th, td {
+        display: block;
+        text-align: center;
+        white-space: nowrap; /* Evita que los contenidos se envuelvan */
+        border-bottom: 1px solid #ddd;
+    }
+
+    td {
+        text-align: right;
+        padding-left: 15px;
+    }
 }
