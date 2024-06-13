@@ -103,7 +103,7 @@ export class SignInComponent implements OnInit {
     const user: User = {
       nombreAdministrador: this.nombre,
       telefono: this.telefono,
-      correoElectronico: this.email,
+      correoelectronico: this.email,
       username: this.username,
       password: this.password,
     }

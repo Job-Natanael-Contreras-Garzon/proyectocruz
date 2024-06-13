@@ -33,6 +33,8 @@ import { NewInventarioComponent } from './new-inventario/new-inventario.componen
 import { NotaSalidaComponent } from './nota-salida/nota-salida.component';
 import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-salida.component';
 import { SessionLostComponent } from './session-lost/session-lost.component';
+import { UserPermisosComponent } from './user-permisos/user-permisos.component';
+import { UsuarioComponent } from './usuario/usuario.component';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { SessionLostComponent } from './session-lost/session-lost.component';
     NewInventarioComponent,
     NotaSalidaComponent,
     UpdNewNotaSalidaComponent,
-    SessionLostComponent,    
+    SessionLostComponent,
+    UserPermisosComponent,
+    UsuarioComponent,    
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,8 @@ import { InventarioComponent } from './inventario/inventario.component';
 import { NewInventarioComponent } from './new-inventario/new-inventario.component';
 import { NotaSalidaComponent } from './nota-salida/nota-salida.component';
 import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-salida.component';
+import { UserPermisosComponent } from './user-permisos/user-permisos.component';
+import { UsuarioComponent } from './usuario/usuario.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login',pathMatch:'full'},
@@ -43,6 +45,8 @@ const routes: Routes = [
     { path: 'notasalida', component : NotaSalidaComponent},
     { path: 'Newnotasalida', component : UpdNewNotaSalidaComponent},
     { path: 'Updnotasalida/:cod', component : UpdNewNotaSalidaComponent},
+    { path: 'userpermisos/:nom', component : UserPermisosComponent},
+    { path: 'usuario', component : UsuarioComponent},
   ]},
   { path: '**',redirectTo: 'login',pathMatch:'full'},
 ];

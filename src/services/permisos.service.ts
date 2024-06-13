@@ -44,7 +44,7 @@ export class PermisosService {
   }
 
   updatePermiso(perm: Permiso):Observable<void> {
-    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}/updatepermiso`,perm);
+    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}/updatepermiso`,perm);
   }
 
   getPermiso(username:string,vista:string):Observable<Permiso[]> {

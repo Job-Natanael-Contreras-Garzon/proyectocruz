@@ -132,7 +132,7 @@ export class MenuComponent implements OnInit{
   }
 
   registro(){
-    this.router.navigate(['/home/registro']);
+    this.router.navigate(['/home/usuario']);
   }
   
   cambiar_password(){
