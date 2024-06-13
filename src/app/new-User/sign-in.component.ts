@@ -75,12 +75,14 @@ export class SignInComponent implements OnInit {
       const permiso: Permiso = {
         username: this.username,
         perm_habilitado: this.habilitado,
+        perm_ver:this.ver,
         perm_insertar: this.insertar,
         perm_editar: this.editar,
         perm_eliminar: this.eliminar,
-        perm_ver:this.ver,
         vista: vista
       }
+      console.log(permiso);
+      
       this._permisoServices.newPermiso(permiso).subscribe(()=>{
       })
     })
