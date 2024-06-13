@@ -3,7 +3,7 @@
     <div class="div1"> 
         <div class="form-container">
             <h2>Registro de Producto</h2>
-            <form (ngSubmit)="registrarProducto()">
+            <form *ngIf="insertar" (ngSubmit)="registrarProducto()">
               <label for="categoria">Categoría:</label><br>
               <select id="categoria" name="categoria" [(ngModel)]="categoria" required>
                 <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
@@ -53,8 +53,8 @@
                   <td>{{ item.precio_venta}}</td>
                   <td>{{ item.fecha_vencimiento }}</td>
                   <td>
-                    <button *ngIf="permiso!='C'" (click)="PusProduct(item,item.cod!)" type="button" class="btn btn-primary btn-sm">Editar</button>
-                    <button *ngIf="permiso=='A'" (click)="deleteProduct(item.cod!)" type="button" class="btn btn-secondary btn-sm">Eliminar</button>
+                    <button *ngIf="editar" (click)="PusProduct(item,item.cod!)" type="button" class="btn btn-primary btn-sm">Editar</button>
+                    <button *ngIf="eliminar" (click)="deleteProduct(item.cod!,item.categoria)" type="button" class="btn btn-secondary btn-sm">Eliminar</button>
                   </td>
                 </tr>
               </tbody>

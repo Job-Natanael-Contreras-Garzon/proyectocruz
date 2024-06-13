@@ -84,5 +84,9 @@ export class BitacoraService {
     this.newBitacora(bitacora).subscribe()
   }
 
+  getApiUrl(): string {
+    return `${this.myAppUrl}${this.myApiUrl}/newBitacora`;
+  }
+
 }
 

@@ -8,6 +8,7 @@ import { Product } from '../interfaces/product';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PermisosService } from '../../services/permisos.service';
 import { BitacoraService } from '../../services/bitacora.service';
+import { Permiso } from '../interfaces/permiso';
 
 
 
@@ -30,7 +31,10 @@ export class ProductoComponent implements OnInit{
   RegUp:boolean = false;
   cod:number = 0;
 
-  permiso:string | undefined; 
+  insertar: boolean = false;
+  editar: boolean = false;
+  eliminar: boolean =false;
+  username: string = "";
 
   constructor(private toastr: ToastrService,
     private _productService: ProductoService,
@@ -41,13 +45,35 @@ export class ProductoComponent implements OnInit{
 
   ngOnInit(): void {
     this.getListProduct();
-    this._permiso.obtenerPermisos();
-    this._permiso.perm$.subscribe((permiso: string | undefined) => {
-      this.permiso = permiso;
-    });
+    this.getUsernameFromToken();
+    this.getPermisos();
   }
   
-  
+  getPermisos(){
+    this._permiso.getPermiso(this.username,"producto").subscribe((data:Permiso[])=>{
+      data.forEach((perm: Permiso)=>{
+        this.insertar = perm.perm_insertar;
+        this.eliminar = perm.perm_eliminar;
+        this.editar = perm.perm_editar!;
+      })
+    })
+  }
+
+  getUsernameFromToken() {
+    const token = localStorage.getItem('token'); // Obtén el token JWT almacenado en el localStorage
+    if (token) {
+      const tokenParts = token.split('.'); 
+      if (tokenParts.length === 3) {
+        const payload = JSON.parse(atob(tokenParts[1])); // Decodifica la parte del payload
+        this.username = payload.username; 
+       
+      } else {
+        this.toastr.error('El token no tiene el formato esperado.','Error');
+      }
+    } else {
+      this.toastr.error('No se encontró un token en el localStorage.','Error');
+    }
+  }
   
   registrarProducto(): void {
     
@@ -84,7 +110,7 @@ export class ProductoComponent implements OnInit{
         } 
       );
       this.RegUp=false;
-      this._bitacoraServices.ActualizarBitacora("Actualizo un Producto");
+      this._bitacoraServices.ActualizarBitacora(`Actualizo el Producto: ${this.categoria}`);
     }else{
       this._productService.newProduct(product).subscribe(
         (data: any) => {
@@ -98,7 +124,7 @@ export class ProductoComponent implements OnInit{
           this._errorServices.msjError(error);
         } 
       );
-      this._bitacoraServices.ActualizarBitacora("Registro un Nuevo Producto");
+      this._bitacoraServices.ActualizarBitacora("Registro el Nuevo Producto: ${this.categoria}");
     }
 
     
@@ -119,11 +145,11 @@ export class ProductoComponent implements OnInit{
   }
 
 
-  deleteProduct(cod:number){
+  deleteProduct(cod:number,pr:string){
     this._productService.deleteProduct(cod).subscribe(()=>{
       this.toastr.warning('Eliminado con Existo')
       this.getListProduct();
-      this._bitacoraServices.ActualizarBitacora("Elimino un Producto");
+      this._bitacoraServices.ActualizarBitacora(`Eliminó el Producto: ${pr}`);
     })
   }
 

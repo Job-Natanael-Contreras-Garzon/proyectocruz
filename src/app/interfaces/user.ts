@@ -1,9 +1,9 @@
 export interface User{
+    user_id?: number;
     nombreAdministrador: string;
     telefono: string;
-    correoElectronico: string;
-    username: String;
-    password: String;
-    tipoPermiso: string;
+    correoelectronico: string;
+    username: string;
+    password: string;
     categoria?: string;
 }

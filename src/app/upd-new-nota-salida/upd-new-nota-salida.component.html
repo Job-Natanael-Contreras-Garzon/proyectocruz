@@ -18,7 +18,7 @@
       <label for="cantidad">Cantidad:</label>
       <input type="number" id="cantidad" name="cantidad" min="1" value="1" [(ngModel)]="cantidadSeleccionada">
   
-      <button type="button" (click)="agregarProducto()">Agregar producto</button>
+      <button type="button" *ngIf="cod==0 || editar" (click)="agregarProducto()">Agregar producto</button>
     </form>
   
     <table>
@@ -33,15 +33,15 @@
         <tr *ngFor="let producto of productosSeleccionados">
           <td>{{ producto.producto.categoria }}</td>
           <td>{{ producto.cantidad }}</td>
-          <td><button (click)="eliminarProducto(producto)">Eliminar</button>
-            <button *ngIf="cod !== 0" (click)="edpr(producto, i)">Editar</button>
+          <td><button *ngIf="cod==0 || editar" (click)="eliminarProducto(producto)">Eliminar</button>
+            <button *ngIf="cod !== 0 && editar" (click)="edpr(producto, i)">Editar</button>
           </td> 
         </tr>
       </tbody>
     </table>
   
     <div class="button-container">
-      <button routerLink="/home/notasalida" (click)="confirm()">Confirmar</button>
+      <button *ngIf="cod==0 || editar" routerLink="/home/notasalida" (click)="confirm()">Confirmar</button>
       <button routerLink="/home/notasalida">Volver</button>
     </div>
   </div>

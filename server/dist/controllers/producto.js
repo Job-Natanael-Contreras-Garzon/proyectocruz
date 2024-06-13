@@ -14,7 +14,6 @@ const producto_1 = require("../models/producto");
 const newProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { marca, categoria, stock, precio_compra, precio_venta, fecha_vencimiento } = req.body;
     try {
-        console.log(fecha_vencimiento);
         yield (0, producto_1.callCrearProducto)(marca, categoria, stock, precio_compra, precio_venta, fecha_vencimiento);
         res.json({
             msg: `Producto Añadido`,

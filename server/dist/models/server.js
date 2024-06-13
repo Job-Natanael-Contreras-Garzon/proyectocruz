@@ -22,6 +22,7 @@ const almacen_1 = __importDefault(require("../routes/almacen"));
 const bitacora_1 = __importDefault(require("../routes/bitacora"));
 const inventario_1 = __importDefault(require("../routes/inventario"));
 const nota_salida_1 = __importDefault(require("../routes/nota_salida"));
+const permisos_1 = __importDefault(require("../routes/permisos"));
 const User_1 = require("./User");
 class Server {
     constructor() {
@@ -46,6 +47,7 @@ class Server {
         this.app.use('/api/bitacora', bitacora_1.default);
         this.app.use('/api/inventario', inventario_1.default);
         this.app.use('/api/notasalida', nota_salida_1.default);
+        this.app.use('/api/permisos', permisos_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());

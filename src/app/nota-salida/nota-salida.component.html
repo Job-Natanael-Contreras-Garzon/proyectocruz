@@ -19,8 +19,8 @@
                 <td>{{ listN.descripcion }}</td>
                 <td>{{ listN.fecha }}</td>
                 <td>
-                  <button *ngIf="permiso!='C'" (click)="deleteNotaSalida(listN.cod!)" type="button" class="btn btn-primary btn-sm btn-separado">Eliminar</button>
-                  <button *ngIf="permiso!='C'" routerLink="/home/Updnotasalida/{{listN.cod!}}"  type="button" class="btn btn-primary btn-sm btn-separado">Detalles</button>
+                  <button *ngIf="eliminar" (click)="deleteNotaSalida(listN.cod!,listN.origen)" type="button" class="btn btn-primary btn-sm btn-separado">Eliminar</button>
+                  <button routerLink="/home/Updnotasalida/{{listN.cod!}}"  type="button" class="btn btn-primary btn-sm btn-separado">Detalles</button>
                 </td>
               </tr>
             </ng-container>
@@ -28,4 +28,4 @@
       </table>
 </div>
 
-<button routerLink="/home/Newnotasalida" type="button" class="btn btn-primary btn-sm btn-separado">Insertar</button>
+<button *ngIf="insertar" routerLink="/home/Newnotasalida" type="button" class="btn btn-primary btn-sm btn-separado">Insertar</button>

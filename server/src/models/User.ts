@@ -23,10 +23,10 @@ export const User = sequelize.define('User', {
 
 
 // Llamar al procedimiento almacenado
-export async function callCrearUsuarioProcedure(nombreAdministrador: string, telefono: string, correoElectronico: string, username: string, password: string, tipoPermiso: string) {
+export async function callCrearUsuarioProcedure(nombreAdministrador: string, telefono: string, correoElectronico: string, username: string, password: string) {
     try {
       const [results, metadata] = await sequelize.query(
-        `CALL crear_usuario('${nombreAdministrador}', '${telefono}', '${correoElectronico}', '${username}', '${password}', '${tipoPermiso}')`
+        `CALL crear_usuario('${nombreAdministrador}', '${telefono}', '${correoElectronico}', '${username}', '${password}')`
       );
       //console.log(results);
     } catch (error) {
@@ -44,14 +44,14 @@ export async function callActualizarPassword(username: string, password: string)
   }
 }
 
-export async function obtener_categoria_permiso(username:string) {
+export async function Mostrar_usuarios(){
   try {
-      const [results, metadata] = await sequelize.query(
-          `SELECT obtener_categoria_permiso('${username}') AS categoria`
-      );
-      return results;
+    const [results, metadata] = await sequelize.query(
+      `SELECT * FROM mostrar_usuarios()`
+    );
+    return results;
   } catch (error) {
-      console.error('Error al llamar al procedimiento almacenado:', error);
-      throw error; // Propaga el error para manejarlo en otro lugar si es necesario
+    console.error('Error al llamar al procedimiento almacenado:', error);
   }
-}
+};
+

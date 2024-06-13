@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import bycrypt from 'bcrypt';
-import { User, callActualizarPassword, obtener_categoria_permiso } from '../models/User';
+import { Mostrar_usuarios, User, callActualizarPassword } from '../models/User';
 import jwt from 'jsonwebtoken'
 import { callCrearUsuarioProcedure } from '../models/User';
 
 export const newUser = async (req: Request, res: Response) => {
     
-    const { nombreAdministrador, telefono, correoElectronico, username, password, tipoPermiso } = req.body;
+    const { nombreAdministrador, telefono, correoElectronico, username, password} = req.body;
 
     //codificacion de la contraseña
     const hashedPassword = await bycrypt.hash(password,10)
@@ -28,7 +28,7 @@ export const newUser = async (req: Request, res: Response) => {
         //     password: hashedPassword
         // })
         //console.log(nombreAdministrador);
-        await callCrearUsuarioProcedure(nombreAdministrador, telefono, correoElectronico, username, hashedPassword, tipoPermiso);
+        await callCrearUsuarioProcedure(nombreAdministrador, telefono, correoElectronico, username, hashedPassword);
 
         res.json({
             msg: `Usuario ${username} creado exitosamente`,
@@ -98,24 +98,18 @@ export const loginUser = async (req: Request, res: Response) => {
 
 }
 
-export const UserPer = async (req: Request, res: Response) => {
-    const {username} = req.body;
-    //validamos si el usuario existe en la base
-    const user: any = await User.findOne({where: { username: username }});
-    if(!user){
-        return res.status(400).json({
-            msg: `No existe un usuario con el nombre ${username} en la base de datos`
-        })
-    }
-
+export const getUsuarios = async (req:Request, res:Response) => {
+    
     try {
-        const permiso=await obtener_categoria_permiso(username);
-
-        res.json(permiso)
+        const listUsuario = await Mostrar_usuarios();
+        //console.log(_listProduct);
+        
+        res.json(listUsuario);
     } catch (error) {
-        res.status(400).json({
+        res.status(401).json({
             msg: 'Ups Ocurrio Un error',
             error
         })
     }
-}
+};
+

@@ -16,12 +16,12 @@
         <td>{{ inv.nombre_producto }}</td>
         <td>{{ inv.cantidad }}</td>
         <td>{{ inv.nombre_almacen }}</td>
-        <button (click)="deleteInventario(inv.numero!)" class="btn-submit">Eliminar</button>
+        <button *ngIf="eliminar" (click)="deleteInventario(inv.numero!,inv.nombre_producto)" class="btn-submit">Eliminar</button>
     </tr>
     </tbody>
   </table>
   <div class="button-container">
-    <button routerLink="/home/newInventario" class="btn-new-inventario">Nuevo Inventario</button>
+    <button *ngIf="insertar" routerLink="/home/newInventario" class="btn-new-inventario">Nuevo Inventario</button>
     <button routerLink="/home/almacen" class="btn-new-inventario">Volver</button>
   </div>
   

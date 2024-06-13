@@ -5,7 +5,6 @@ import { Producto, callActualizarProducto, callCrearProducto, obtenerProductos }
 export const newProducto = async (req:Request, res: Response) => {
     const {marca, categoria, stock, precio_compra, precio_venta, fecha_vencimiento} = req.body;
     try {
-        console.log(fecha_vencimiento);
         await callCrearProducto(marca,categoria,stock,precio_compra,precio_venta,fecha_vencimiento);
         res.json({
             msg: `Producto Añadido`,

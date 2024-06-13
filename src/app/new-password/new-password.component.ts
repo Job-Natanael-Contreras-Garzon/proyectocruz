@@ -59,13 +59,17 @@ export class NewPasswordComponent implements OnInit {
       return
     }
 
+    if (this.password != this.confirm_password) {
+      this.toastr.error('Las contraseñas deben ser iguales', 'Error');
+      return
+    }
+
     const user: User = {
       nombreAdministrador: this.nombreAdministrador,
       telefono: this.telefono,
-      correoElectronico: this.correoElectronico,
+      correoelectronico: this.correoElectronico,
       username: this.username,
       password: this.password,
-      tipoPermiso: this.tipoPermiso,
     }
 
     this._userService.newPassword(user).subscribe(

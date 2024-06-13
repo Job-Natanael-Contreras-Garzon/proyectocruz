@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LayoutComponent } from '../layout/layout.component';
@@ -10,29 +10,37 @@ import { User } from '../interfaces/user';
 import { PermisosService } from '../../services/permisos.service';
 import { BitacoraService } from '../../services/bitacora.service';
 import { Bitacora } from '../interfaces/bitacora';
+import { Permiso } from '../interfaces/permiso';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit{
   
   public AlmacenForm: FormGroup = this.fb.group({
     
   });
+  listvistas: string[]=["vender","producto","proveedor","notasalida","bitacora","usuario"];
+  ver_vender: boolean=false;
+  ver_producto: boolean=false;
+  ver_proveedor: boolean=false;
+  ver_notasalida: boolean=false;
+  ver_bitacora: boolean=false;
+  ver_usuarios: boolean=false;
 
   private token: string;
   perm: string | undefined;
   username:string = '';
-
+  
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private _userService: UserService,
     private toastr: ToastrService,
-    private _permiso:PermisosService,
+    private _permisoServices:PermisosService,
     private _bitacoraServices:BitacoraService
   ){
     this.token = localStorage.getItem('token')|| '';
@@ -41,13 +49,43 @@ export class MenuComponent {
       router.navigate(['/login'])
       return;
     }
+  }
+  ngOnInit(): void {
     this.getUsernameFromToken();
-    this._permiso.obtenerPermisos();
-    this._permiso.perm$.subscribe((permiso: string | undefined) => {
-      this.perm = permiso;
-    });
+    this.getPerVista();
   }
   
+  
+  getPerVista() {
+    this.listvistas.forEach((vista: string) => {
+      this._permisoServices.getPermiso(this.username, vista).subscribe((data: Permiso[]) => {
+        data.forEach((permiso: Permiso) => {
+          switch (vista) {
+            case 'vender':
+              this.ver_vender = permiso.perm_ver;
+              break;
+            case 'producto':
+              this.ver_producto = permiso.perm_ver;
+              break;
+            case 'proveedor':
+              this.ver_proveedor = permiso.perm_ver;
+              break;
+            case 'notasalida':
+              this.ver_notasalida = permiso.perm_ver;
+              break;
+            case 'bitacora':
+              this.ver_bitacora = permiso.perm_ver;
+              break;
+            case 'usuario':
+              this.ver_usuarios = permiso.perm_ver;
+              break;
+            default:
+              console.error(`Vista desconocida: ${permiso.vista}`);
+          }
+        });
+      });
+    });
+  }
   
 
   getUsernameFromToken() {
@@ -66,6 +104,7 @@ export class MenuComponent {
     }
   }
 
+  
 
   //haciendo procedimiento que lleva a la ruta establecida
   onAlmacen(): void {
@@ -93,7 +132,7 @@ export class MenuComponent {
   }
 
   registro(){
-    this.router.navigate(['/home/registro']);
+    this.router.navigate(['/home/usuario']);
   }
   
   cambiar_password(){

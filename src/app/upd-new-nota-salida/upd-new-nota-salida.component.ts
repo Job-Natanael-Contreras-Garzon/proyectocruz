@@ -7,6 +7,8 @@ import { NotaSalidaService } from '../../services/nota-salida.service';
 import { NotaSalida } from '../interfaces/nota_salida';
 import { DetalleNotaSalida } from '../interfaces/detalle_nota_salida';
 import { BitacoraService } from '../../services/bitacora.service';
+import { Permiso } from '../interfaces/permiso';
+import { PermisosService } from '../../services/permisos.service';
 
 
 @Component({
@@ -15,6 +17,10 @@ import { BitacoraService } from '../../services/bitacora.service';
   styleUrl: './upd-new-nota-salida.component.css'
 })
 export class UpdNewNotaSalidaComponent implements OnInit{
+
+  username: string = "";
+  editar: boolean = false;
+
   origen: string = '';
   descripcion: string = '';
   cod_salida: number = 0;
@@ -40,8 +46,10 @@ export class UpdNewNotaSalidaComponent implements OnInit{
   cod: number;
   operacion:string = 'Agregar ';
   cod_detalleNotaSalida: number=0;
+
   constructor(
     private _productServices: ProductoService,
+    private _permisoServices: PermisosService,
     private toastr: ToastrService,
     private _NotaSalidaServices: NotaSalidaService,
     private aRouter: ActivatedRoute,
@@ -57,6 +65,32 @@ export class UpdNewNotaSalidaComponent implements OnInit{
       this.getNotaSalida();
     }
     this.getListProducto();
+    this.getUsernameFromToken();
+    this.getPermisos();
+  }
+
+  getPermisos(){
+    this._permisoServices.getPermiso(this.username,"notasalida").subscribe((data: Permiso[])=>{
+      data.forEach((perm: Permiso)=>{
+        this.editar = perm.perm_editar!;
+      })
+    })
+  }
+
+  getUsernameFromToken() {
+    const token = localStorage.getItem('token'); // Obtén el token JWT almacenado en el localStorage
+    if (token) {
+      const tokenParts = token.split('.'); 
+      if (tokenParts.length === 3) {
+        const payload = JSON.parse(atob(tokenParts[1])); // Decodifica la parte del payload
+        this.username = payload.username; 
+       
+      } else {
+        this.toastr.error('El token no tiene el formato esperado.','Error');
+      }
+    } else {
+      this.toastr.error('No se encontró un token en el localStorage.','Error');
+    }
   }
 
   agregarProducto() {
@@ -139,6 +173,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
 
       this._NotaSalidaServices.UpdateNotaSalida(this.cod,notasalida).subscribe(()=>{
         this.toastr.success(`Nota de salida: ${this.cod} Actualizada con existo`,"Nota de salida Actualizada")
+        this._bitacoraServices.ActualizarBitacora(`Actualizo nota de salida con origen: ${notasalida.origen}`);
       })
       
      this.detNotaSalida();
@@ -147,6 +182,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
         this.cod_salida=data;
         this.detNotaSalida()
         this.toastr.success("Nota de salida creada con existo","Nota de salida Creada")
+        this._bitacoraServices.ActualizarBitacora(`Se inserto una nueva nota de salida con origen: ${notasalida.origen}`);
       })
     }
     
