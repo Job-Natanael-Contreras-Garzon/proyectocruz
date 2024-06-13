@@ -18,7 +18,7 @@ export class UserService {
   }
 
   newUser(user: User):Observable<string> {
-    //console.log(user);
+    console.log(user);
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`,user);
   }
 
