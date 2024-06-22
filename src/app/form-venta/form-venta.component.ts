@@ -6,6 +6,8 @@ import { FacturaService } from '../../services/factura.service';
 import { Factura } from '../interfaces/factura';
 import { BitacoraService } from '../../services/bitacora.service';
 import { DetalleFactura } from '../interfaces/detallefactura';
+import { ErrorService } from '../../services/error.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-form-venta',
@@ -39,6 +41,7 @@ export class FormVentaComponent implements OnInit{
     private toastr: ToastrService,
     private _facturaServices: FacturaService,
     private _bitacoraServices: BitacoraService,
+    private errorService: ErrorService,
   ){
 
   }
@@ -125,7 +128,11 @@ export class FormVentaComponent implements OnInit{
           this.detalleFact();
           this.toastr.success('Factura Añadida con Exito','Factura Añadida')  
           this._bitacoraServices.ActualizarBitacora(`Creó la factura del cliente ${this.nombreCliente}`)
-        })
+        },
+        (error :HttpErrorResponse)=>{
+          this.errorService.msjError(error);
+        }
+      );
        
   }
 
@@ -139,9 +146,14 @@ export class FormVentaComponent implements OnInit{
       };
 
       // Guardar el detalle de la factura
-      this._facturaServices.newDetalleFactura(detalleFac).subscribe(() => {
-      });
-
+      this._facturaServices.newDetalleFactura(detalleFac).subscribe(
+        () => {
+          // Detalle añadido correctamente
+        },
+        (error: HttpErrorResponse) => {
+          this.errorService.msjError(error); // Usa el servicio de errores para manejar errores
+        }
+      );
     })
   }
 
