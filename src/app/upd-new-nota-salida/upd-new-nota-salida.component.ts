@@ -261,7 +261,10 @@ export class UpdNewNotaSalidaComponent implements OnInit{
         };
         this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida).subscribe(
           () => {},
-          error => this.errorService.msjError(error) // Manejar error con ErrorService
+          error => {
+            this.errorService.msjError(error)
+            this.getError=true;
+          } // Manejar error con ErrorService
         );
       });
     }
