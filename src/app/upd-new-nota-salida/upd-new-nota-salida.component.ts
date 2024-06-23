@@ -207,6 +207,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
         (data: number) => {
           this.cod_salida = data;
           this.detNotaSalida();
+          console.log(this.getError);
           if(!this.getError){
             this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
             this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
