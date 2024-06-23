@@ -211,6 +211,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
               if (success) {
                 this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
                 this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
+                this.router.navigate(['/home/notasalida']);
               } else {
                 //this.eliminarNotaSalida(this.cod_salida);
                 this._NotaSalidaServices.deleteNotasVacias().subscribe();
@@ -228,7 +229,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
         error => this.errorService.msjError(error)
       );
     }
-    this.router.navigate(['/home/notasalida']);
+    
   }
   
   eliminarNotaSalida(cod_salida: number) {
