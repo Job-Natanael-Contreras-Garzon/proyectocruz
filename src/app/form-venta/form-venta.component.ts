@@ -8,6 +8,7 @@ import { BitacoraService } from '../../services/bitacora.service';
 import { DetalleFactura } from '../interfaces/detallefactura';
 import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-form-venta',
@@ -112,49 +113,75 @@ export class FormVentaComponent implements OnInit{
   }
 
 
-  ConfirmarVenta(){
-    const factura: Factura={
-      ci_cliente:this.CI_Cliente,
-      nombre_cliente:this.nombreCliente,
+  ConfirmarVenta() {
+    const factura: Factura = {
+      ci_cliente: this.CI_Cliente,
+      nombre_cliente: this.nombreCliente,
       correo_cliente: this.emailCliente,
       telefono_cliente: this.telefonoCliente,
       nombre_usuario: this.username,
-      metodo_pago_nombre:this.metodoPago,
-    }
-    
-      this._facturaServices.newFactura(factura).subscribe((data:any)=>{
+      metodo_pago_nombre: this.metodoPago,
+    };
+  
+    this._facturaServices.newFactura(factura).subscribe(
+      (data: any) => {
         const codFactura = data[0].insertar_factura;
-          this.codfact = codFactura;    
-          this.detalleFact();
-          this.toastr.success('Factura Añadida con Exito','Factura Añadida')  
-          this._bitacoraServices.ActualizarBitacora(`Creó la factura del cliente ${this.nombreCliente}`)
-        },
-        (error :HttpErrorResponse)=>{
-          this.errorService.msjError(error);
-        }
-      );
-       
+        this.codfact = codFactura;
+  
+        this.detalleFact().subscribe(
+          success => {
+            if (success) {
+              this.toastr.success('Factura Añadida con Exito', 'Factura Añadida');
+              this._bitacoraServices.ActualizarBitacora(`Creó la factura del cliente ${this.nombreCliente}`);
+            } else {
+              this.eliminarFactura(codFactura);
+            }
+          },
+          error => {
+            this.eliminarFactura(codFactura);
+            this.errorService.msjError(error);
+          }
+        );
+      },
+      (error: HttpErrorResponse) => {
+        this.errorService.msjError(error);
+      }
+    );
   }
+  
+  eliminarFactura(codFactura: number) {
+    this._facturaServices.delete_Factura_Detalle(codFactura).subscribe(
+      () => {
+        //this.toastr.error('Error al crear detalles de la factura. La factura ha sido eliminada.', 'Error');
+      },
+      (error: HttpErrorResponse) => {
+        this.errorService.msjError(error);
+      }
+    );
+  }
+  
 
-  detalleFact(){
-    this.productosSeleccionados.forEach(item => {
-        
+  detalleFact(): Observable<boolean> {
+    const requests = this.productosSeleccionados.map(item => {
       const detalleFac: DetalleFactura = {
         codigo_factura: this.codfact,
         categoria_producto_nombre: `${item.producto.categoria}`,
         cantidad_producto: item.cantidad
       };
-
-      // Guardar el detalle de la factura
-      this._facturaServices.newDetalleFactura(detalleFac).subscribe(
-        () => {
-          // Detalle añadido correctamente
-        },
-        (error: HttpErrorResponse) => {
-          this.errorService.msjError(error); // Usa el servicio de errores para manejar errores
-        }
+  
+      return this._facturaServices.newDetalleFactura(detalleFac).pipe(
+        map(() => true),
+        catchError((error: HttpErrorResponse) => {
+          this.errorService.msjError(error);
+          return of(false);
+        })
       );
-    })
+    });
+  
+    return forkJoin(requests).pipe(
+      map(results => results.every(result => result === true))
+    );
   }
+  
 
 }
