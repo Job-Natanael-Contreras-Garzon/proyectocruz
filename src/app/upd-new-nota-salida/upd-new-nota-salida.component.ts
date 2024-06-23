@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product } from '../interfaces/product';
 import { ProductoService } from '../../services/producto.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +10,8 @@ import { BitacoraService } from '../../services/bitacora.service';
 import { Permiso } from '../interfaces/permiso';
 import { PermisosService } from '../../services/permisos.service';
 import { ErrorService } from '../../services/error.service';
-
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upd-new-nota-salida',
@@ -19,7 +20,7 @@ import { ErrorService } from '../../services/error.service';
 })
 export class UpdNewNotaSalidaComponent implements OnInit{
 
-  getError: boolean=false;
+  getSuces: boolean=true;
 
   username: string = "";
   editar: boolean = false;
@@ -59,6 +60,7 @@ export class UpdNewNotaSalidaComponent implements OnInit{
     private _DetalleSalidaServices: NotaSalidaService,
     private _bitacoraServices:BitacoraService,
     private errorService: ErrorService,
+    private router: Router,
   ){
     this.cod = Number(this.aRouter.snapshot.paramMap.get('cod'));
   }
@@ -185,89 +187,103 @@ export class UpdNewNotaSalidaComponent implements OnInit{
     if (this.cod !== 0) {
       // Eliminar producto si ya confirmó
       if (this.detallesAEliminar.length > 0) {
-        this.detallesAEliminar.forEach(codDetNS => {
-          this._DetalleSalidaServices.deleteDetalleNotaSalida(codDetNS).subscribe(
-            () => {},
-            error => this.errorService.msjError(error) // Manejar error con ErrorService
-          );
+        const deleteRequests = this.detallesAEliminar.map(codDetNS =>
+          this._DetalleSalidaServices.deleteDetalleNotaSalida(codDetNS).pipe(
+            catchError(error => {
+              this.errorService.msjError(error);
+              return of(null); // Continuar con null si hay error
+            })
+          )
+        );
+  
+        forkJoin(deleteRequests).subscribe(() => {
+          this.updateNotaSalida(notasalida);
         });
+      } else {
+        this.updateNotaSalida(notasalida);
       }
-  
-      this._NotaSalidaServices.UpdateNotaSalida(this.cod, notasalida).subscribe(
-        () => {
-          this.toastr.success(`Nota de salida: ${this.cod} Actualizada con éxito`, 'Nota de salida Actualizada');
-          this._bitacoraServices.ActualizarBitacora(`Actualizó nota de salida con origen: ${notasalida.origen}`);
-        },
-        error => this.errorService.msjError(error) // Manejar error con ErrorService
-      );
-  
-      this.detNotaSalida();
     } else {
       this._NotaSalidaServices.newNotaSalida(notasalida).subscribe(
         (data: number) => {
           this.cod_salida = data;
-          this.detNotaSalida();
-          console.log(this.getError);
-          if(!this.getError){
-            this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
-            this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
-          }
+          this.detNotaSalida().subscribe(
+            success => {
+              if (success) {
+                this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
+                this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
+              } else {
+                //this.eliminarNotaSalida(this.cod_salida);
+                this._NotaSalidaServices.deleteNotasVacias().subscribe();
+                this.getSuces=false;
+              }
+            },
+            error => {
+              //this.eliminarNotaSalida(this.cod_salida);
+              this.getSuces=false;
+              this._NotaSalidaServices.deleteNotasVacias().subscribe();
+              this.errorService.msjError(error);
+            }
+          );
         },
-        error => this.errorService.msjError(error) // Manejar error con ErrorService
+        error => this.errorService.msjError(error)
       );
     }
+    this.router.navigate(['/home/notasalida']);
   }
   
-
+  eliminarNotaSalida(cod_salida: number) {
+    this._NotaSalidaServices.deleteNotaSalida(cod_salida).subscribe(
+      () => {
+        this.toastr.error('Error al crear detalles de la nota de salida. La nota de salida ha sido eliminada.', 'Error');
+      },
+      error => {
+        this.errorService.msjError(error);
+      }
+    );
+  }
   
-
-  detNotaSalida() {
-    if (this.cod !== 0) {
-      this.productosSeleccionados.forEach(item => {
-        if (item.codDetNS) {
-          const detNotaSalida: DetalleNotaSalida = {
-            cod_detalle: item.codDetNS,
-            nombre_producto: item.producto.categoria,
-            cantidad: item.cantidad,
-          };
-          this._DetalleSalidaServices.updateDetalleNotaSalida(detNotaSalida).subscribe(
-            () => {},
-            error => {
-              this.errorService.msjError(error)
-              this.getError=true;
-            } // Manejar error con ErrorService
-          );
-        } else {
-          const detNotaSalida: DetalleNotaSalida = {
-            cod_salida: this.cod_salida,
-            nombre_producto: item.producto.categoria,
-            cantidad: item.cantidad,
-          };
-          this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida).subscribe(
-            () => {},
-            error => {
-              this.errorService.msjError(error)
-              this.getError=true;
-            } // Manejar error con ErrorService
-          );
-        }
-      });
-    } else {
-      this.productosSeleccionados.forEach(item => {
-        const detNotaSalida: DetalleNotaSalida = {
-          cod_salida: this.cod_salida,
-          nombre_producto: item.producto.categoria,
-          cantidad: item.cantidad,
-        };
-        this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida).subscribe(
-          () => {},
-          error => {
-            this.errorService.msjError(error)
-            this.getError=true;
-          } // Manejar error con ErrorService
+  updateNotaSalida(notasalida: NotaSalida) {
+    this._NotaSalidaServices.UpdateNotaSalida(this.cod, notasalida).subscribe(
+      () => {
+        this.detNotaSalida().subscribe(
+          success => {
+            if (success) {
+              this.toastr.success(`Nota de salida: ${this.cod} Actualizada con éxito`, 'Nota de salida Actualizada');
+              this._bitacoraServices.ActualizarBitacora(`Actualizó nota de salida con origen: ${notasalida.origen}`);
+            }
+          },
+          error => this.errorService.msjError(error) // Manejar error en detNotaSalida
         );
-      });
-    }
+      },
+      error => this.errorService.msjError(error) // Manejar error en UpdateNotaSalida
+    );
+  }
+  
+  detNotaSalida() {
+    const requests = this.productosSeleccionados.map(item => {
+      const detNotaSalida: DetalleNotaSalida = {
+        cod_detalle: item.codDetNS,
+        cod_salida: this.cod !== 0 ? undefined : this.cod_salida, // Asegurar que sea undefined si no es 0
+        nombre_producto: item.producto.categoria,
+        cantidad: item.cantidad,
+      };
+  
+      const observable = item.codDetNS ?
+        this._DetalleSalidaServices.updateDetalleNotaSalida(detNotaSalida) :
+        this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida);
+  
+      return observable.pipe(
+        map(() => true), // Indicar éxito
+        catchError(error => {
+          this.errorService.msjError(error);
+          return of(false); // Indicar fallo
+        })
+      );
+    });
+  
+    return forkJoin(requests).pipe(
+      map(results => results.every(result => result === true)) // Devuelve true si todos los observables tuvieron éxito
+    );
   }
   
   
