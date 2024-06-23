@@ -19,6 +19,8 @@ import { ErrorService } from '../../services/error.service';
 })
 export class UpdNewNotaSalidaComponent implements OnInit{
 
+  getError: boolean=false;
+
   username: string = "";
   editar: boolean = false;
 
@@ -205,8 +207,10 @@ export class UpdNewNotaSalidaComponent implements OnInit{
         (data: number) => {
           this.cod_salida = data;
           this.detNotaSalida();
-          this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
-          this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
+          if(!this.getError){
+            this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
+            this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
+          }
         },
         error => this.errorService.msjError(error) // Manejar error con ErrorService
       );
@@ -227,7 +231,10 @@ export class UpdNewNotaSalidaComponent implements OnInit{
           };
           this._DetalleSalidaServices.updateDetalleNotaSalida(detNotaSalida).subscribe(
             () => {},
-            error => this.errorService.msjError(error) // Manejar error con ErrorService
+            error => {
+              this.errorService.msjError(error)
+              this.getError=true;
+            } // Manejar error con ErrorService
           );
         } else {
           const detNotaSalida: DetalleNotaSalida = {
@@ -237,7 +244,10 @@ export class UpdNewNotaSalidaComponent implements OnInit{
           };
           this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida).subscribe(
             () => {},
-            error => this.errorService.msjError(error) // Manejar error con ErrorService
+            error => {
+              this.errorService.msjError(error)
+              this.getError=true;
+            } // Manejar error con ErrorService
           );
         }
       });
