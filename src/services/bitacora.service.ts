@@ -78,7 +78,7 @@ export class BitacoraService {
     const bitacora:Bitacora={
       nombre_usuario:this.username,
       ip:this.IP,
-      fechahora:this.fechaHora,
+      fechahora:this.obtenerFechaHoraActual(),
       descripcion: descripcion
     } 
     this.newBitacora(bitacora).subscribe()

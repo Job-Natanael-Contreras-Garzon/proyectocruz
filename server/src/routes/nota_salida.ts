@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { deleteDetalleSalida, deleteNota_Salida, getDetalleSalida, getNota_Salida, getNotas_de_Salida, newDetalleSalida, newNotaSalida, updateDetalleSalida, updateNota_Salida } from '../controllers/nota_salida';
+import { deletNotasVacias, deleteDetalleSalida, deleteNota_Salida, getDetalleSalida, getNota_Salida, getNotas_de_Salida, newDetalleSalida, newNotaSalida, updateDetalleSalida, updateNota_Salida } from '../controllers/nota_salida';
 
 const router = Router();
 
@@ -14,4 +14,5 @@ router.get('/getDetsNotaSalida/:cod',getDetalleSalida);
 router.put('/updateDeNotaSalida',updateDetalleSalida);
 router.delete('/deleteDeNotaSalida/:cod',deleteDetalleSalida);
 
+router.delete('/deleteNotasVacias',deletNotasVacias);
 export default router;

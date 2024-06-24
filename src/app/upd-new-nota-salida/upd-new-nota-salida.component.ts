@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product } from '../interfaces/product';
 import { ProductoService } from '../../services/producto.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,9 @@ import { DetalleNotaSalida } from '../interfaces/detalle_nota_salida';
 import { BitacoraService } from '../../services/bitacora.service';
 import { Permiso } from '../interfaces/permiso';
 import { PermisosService } from '../../services/permisos.service';
-
+import { ErrorService } from '../../services/error.service';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upd-new-nota-salida',
@@ -17,6 +19,8 @@ import { PermisosService } from '../../services/permisos.service';
   styleUrl: './upd-new-nota-salida.component.css'
 })
 export class UpdNewNotaSalidaComponent implements OnInit{
+
+  getSuces: boolean=true;
 
   username: string = "";
   editar: boolean = false;
@@ -55,6 +59,8 @@ export class UpdNewNotaSalidaComponent implements OnInit{
     private aRouter: ActivatedRoute,
     private _DetalleSalidaServices: NotaSalidaService,
     private _bitacoraServices:BitacoraService,
+    private errorService: ErrorService,
+    private router: Router,
   ){
     this.cod = Number(this.aRouter.snapshot.paramMap.get('cod'));
   }
@@ -69,12 +75,17 @@ export class UpdNewNotaSalidaComponent implements OnInit{
     this.getPermisos();
   }
 
-  getPermisos(){
-    this._permisoServices.getPermiso(this.username,"notasalida").subscribe((data: Permiso[])=>{
-      data.forEach((perm: Permiso)=>{
-        this.editar = perm.perm_editar!;
-      })
-    })
+  getPermisos() {
+    this._permisoServices.getPermiso(this.username, "notasalida").subscribe(
+      (data: Permiso[]) => {
+        data.forEach((perm: Permiso) => {
+          this.editar = perm.perm_editar!;
+        });
+      },
+      (error) => {
+        this.errorService.msjError(error); // Usa el servicio de errores para manejar errores
+      }
+    );
   }
 
   getUsernameFromToken() {
@@ -143,98 +154,139 @@ export class UpdNewNotaSalidaComponent implements OnInit{
     })
   }
 
-  getListDetalleNotaSalida(){
-    this._DetalleSalidaServices.getDetalleNotaSalida(this.cod).subscribe((data: DetalleNotaSalida[])=>{
-      this.listDetNosaSalida=data
-    })
+  getListDetalleNotaSalida() {
+    this._NotaSalidaServices.getDetalleNotaSalida(this.cod).subscribe(
+      (data: DetalleNotaSalida[]) => {
+        this.listDetNosaSalida = data;
+      },
+      (error) => {
+        this.errorService.msjError(error); // Usa el servicio de errores para manejar errores
+      }
+    );
   }
 
   getNotaSalida() {
-    this._NotaSalidaServices.getNotaSalida(this.cod).subscribe((data: NotaSalida) => {
-      this.origen = data.origen;
-      this.descripcion = data.descripcion;
-    });
+    this._NotaSalidaServices.getNotaSalida(this.cod).subscribe(
+      (data: NotaSalida) => {
+        this.origen = data.origen;
+        this.descripcion = data.descripcion;
+      },
+      (error) => {
+        this.errorService.msjError(error); // Usa el servicio de errores para manejar errores
+      }
+    );
   }
 
-  confirm(){
+  confirm() {
     const notasalida: NotaSalida = {
-      origen:this.origen,
+      origen: this.origen,
       descripcion: this.descripcion,
-      fecha: new Date,
-    }
-    if(this.cod!=0){
-      //eliminar producto si ya confirmó
-      if(this.detallesAEliminar.length>0){
-        this.detallesAEliminar.forEach(codDetNS => {
-          this._DetalleSalidaServices.deleteDetalleNotaSalida(codDetNS).subscribe(() => {
-          });
+      fecha: new Date(),
+    };
+  
+    if (this.cod !== 0) {
+      // Eliminar producto si ya confirmó
+      if (this.detallesAEliminar.length > 0) {
+        const deleteRequests = this.detallesAEliminar.map(codDetNS =>
+          this._DetalleSalidaServices.deleteDetalleNotaSalida(codDetNS).pipe(
+            catchError(error => {
+              this.errorService.msjError(error);
+              return of(null); // Continuar con null si hay error
+            })
+          )
+        );
+  
+        forkJoin(deleteRequests).subscribe(() => {
+          this.updateNotaSalida(notasalida);
         });
-      } 
-
-      this._NotaSalidaServices.UpdateNotaSalida(this.cod,notasalida).subscribe(()=>{
-        this.toastr.success(`Nota de salida: ${this.cod} Actualizada con existo`,"Nota de salida Actualizada")
-        this._bitacoraServices.ActualizarBitacora(`Actualizo nota de salida con origen: ${notasalida.origen}`);
-      })
-      
-     this.detNotaSalida();
-    }else{
-      this._NotaSalidaServices.newNotaSalida(notasalida).subscribe((data: number)=>{
-        this.cod_salida=data;
-        this.detNotaSalida()
-        this.toastr.success("Nota de salida creada con existo","Nota de salida Creada")
-        this._bitacoraServices.ActualizarBitacora(`Se inserto una nueva nota de salida con origen: ${notasalida.origen}`);
-      })
+      } else {
+        this.updateNotaSalida(notasalida);
+      }
+    } else {
+      this._NotaSalidaServices.newNotaSalida(notasalida).subscribe(
+        (data: number) => {
+          this.cod_salida = data;
+          this.detNotaSalida().subscribe(
+            success => {
+              if (success) {
+                this.toastr.success('Nota de salida creada con éxito', 'Nota de salida Creada');
+                this._bitacoraServices.ActualizarBitacora(`Se insertó una nueva nota de salida con origen: ${notasalida.origen}`);
+                this.router.navigate(['/home/notasalida']);
+              } else {
+                //this.eliminarNotaSalida(this.cod_salida);
+                this._NotaSalidaServices.deleteNotasVacias().subscribe();
+                this.getSuces=false;
+              }
+            },
+            error => {
+              //this.eliminarNotaSalida(this.cod_salida);
+              this.getSuces=false;
+              this._NotaSalidaServices.deleteNotasVacias().subscribe();
+              this.errorService.msjError(error);
+            }
+          );
+        },
+        error => this.errorService.msjError(error)
+      );
     }
     
   }
-
   
-
-  detNotaSalida() {
-    if (this.cod != 0) {
-      this.productosSeleccionados.forEach(item => {
-        if (item.codDetNS) {
-          // Este producto ya existe en la nota de salida, actualiza sus detalles
-          const detNotaSalida: DetalleNotaSalida = {
-            cod_detalle: item.codDetNS,
-            nombre_producto: item.producto.categoria,
-            cantidad: item.cantidad
-          };
-          this._DetalleSalidaServices.updateDetalleNotaSalida(detNotaSalida).subscribe(() => {
-            // Actualización exitosa
-          }, error => {
-            this.toastr.error('Error al actualizar detalle de nota de salida:', error);
-          });
-        } else {
-          // Este producto es nuevo, agrégalo a la nota de salida
-          const detNotaSalida: DetalleNotaSalida = {
-            cod_salida: this.cod_salida,
-            nombre_producto: item.producto.categoria,
-            cantidad: item.cantidad
-          };
-          this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida).subscribe(() => {
-            // Nuevo detalle agregado
-          }, error => {
-            this.toastr.error('Error al agregar nuevo detalle de nota de salida:', error);
-          });
-        }
-      });
-    } else {
-      // Estás creando una nueva nota de salida, agrega todos los productos
-      this.productosSeleccionados.forEach(item => {
-        const detNotaSalida: DetalleNotaSalida = {
-          cod_salida: this.cod_salida,
-          nombre_producto: item.producto.categoria,
-          cantidad: item.cantidad
-        };
-        this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida).subscribe(() => {
-          // Nuevo detalle agregado
-        }, error => {
-          this.toastr.error('Error al agregar nuevo detalle de nota de salida:', error);
-        });
-      });
-    }
+  eliminarNotaSalida(cod_salida: number) {
+    this._NotaSalidaServices.deleteNotaSalida(cod_salida).subscribe(
+      () => {
+        this.toastr.error('Error al crear detalles de la nota de salida. La nota de salida ha sido eliminada.', 'Error');
+      },
+      error => {
+        this.errorService.msjError(error);
+      }
+    );
   }
+  
+  updateNotaSalida(notasalida: NotaSalida) {
+    this._NotaSalidaServices.UpdateNotaSalida(this.cod, notasalida).subscribe(
+      () => {
+        this.detNotaSalida().subscribe(
+          success => {
+            if (success) {
+              this.toastr.success(`Nota de salida: ${this.cod} Actualizada con éxito`, 'Nota de salida Actualizada');
+              this._bitacoraServices.ActualizarBitacora(`Actualizó nota de salida con origen: ${notasalida.origen}`);
+            }
+          },
+          error => this.errorService.msjError(error) // Manejar error en detNotaSalida
+        );
+      },
+      error => this.errorService.msjError(error) // Manejar error en UpdateNotaSalida
+    );
+  }
+  
+  detNotaSalida() {
+    const requests = this.productosSeleccionados.map(item => {
+      const detNotaSalida: DetalleNotaSalida = {
+        cod_detalle: item.codDetNS,
+        cod_salida: this.cod !== 0 ? undefined : this.cod_salida, // Asegurar que sea undefined si no es 0
+        nombre_producto: item.producto.categoria,
+        cantidad: item.cantidad,
+      };
+  
+      const observable = item.codDetNS ?
+        this._DetalleSalidaServices.updateDetalleNotaSalida(detNotaSalida) :
+        this._DetalleSalidaServices.newDetalleNotaSalida(detNotaSalida);
+  
+      return observable.pipe(
+        map(() => true), // Indicar éxito
+        catchError(error => {
+          this.errorService.msjError(error);
+          return of(false); // Indicar fallo
+        })
+      );
+    });
+  
+    return forkJoin(requests).pipe(
+      map(results => results.every(result => result === true)) // Devuelve true si todos los observables tuvieron éxito
+    );
+  }
+  
   
 
   edpr(producto: { producto: Product, cantidad: number, codDetNS?: number}, index: number) {

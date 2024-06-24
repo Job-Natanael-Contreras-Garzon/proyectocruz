@@ -33,6 +33,7 @@ export async function insertar_detalle_factura(codigo_factura: number,categoria_
 
     } catch (error) {
       console.error('Error al llamar al procedimiento almacenado:', error);
+      throw error;
     }
 }
 

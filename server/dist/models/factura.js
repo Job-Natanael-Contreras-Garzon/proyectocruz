@@ -46,6 +46,7 @@ function insertar_detalle_factura(codigo_factura, categoria_producto_nombre, can
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }

@@ -43,4 +43,7 @@ export class NotaSalidaService {
   deleteDetalleNotaSalida(cod:number):Observable<void>{
     return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}/deleteDeNotaSalida/${cod}`);
   }
+  deleteNotasVacias():Observable<void>{
+    return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}/deleteNotasVacias`);
+  }
 }

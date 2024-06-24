@@ -22,8 +22,8 @@ const newPermiso = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error' + error.message,
+            error: error.message
         });
     }
 });
@@ -38,8 +38,8 @@ const actualizar_Permiso = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error' + error.message,
+            error: error.message
         });
     }
 });
@@ -59,8 +59,8 @@ const UserPer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error' + error.message,
+            error: error.message
         });
     }
 });

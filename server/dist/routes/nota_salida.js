@@ -12,4 +12,5 @@ router.post('/newDetNotaSalida', nota_salida_1.newDetalleSalida);
 router.get('/getDetsNotaSalida/:cod', nota_salida_1.getDetalleSalida);
 router.put('/updateDeNotaSalida', nota_salida_1.updateDetalleSalida);
 router.delete('/deleteDeNotaSalida/:cod', nota_salida_1.deleteDetalleSalida);
+router.delete('/deleteNotasVacias', nota_salida_1.deletNotasVacias);
 exports.default = router;

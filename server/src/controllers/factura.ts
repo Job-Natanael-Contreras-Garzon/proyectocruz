@@ -14,7 +14,7 @@ export const newFactura = async (req:Request, res: Response) => {
         res.json(codFac);
     } catch (error) {
         res.status(401).json({
-            msg: 'Ups Ocurrio Un error'+error,
+            msg: 'Ups Ocurrio Un error '+error,
             error
         })
     }
@@ -27,10 +27,10 @@ export const detalle_factura = async (req:Request, res: Response) => {
         res.json({
             msg: `Detalle de Factura Añadida`,
         })
-    } catch (error) {
+    } catch (error:any) {
         res.status(401).json({
-            msg: 'Ups Ocurrio Un error'+error,
-            error
+            msg: 'Ups Ocurrio Un error '+error.message,
+            error: error.message
         })
     }
 }
@@ -39,10 +39,10 @@ export const mostrar_facturas = async (req : Request, res : Response) => {
     try {
         const listFactura = await Mostrar_Factura();
         res.json(listFactura);
-    } catch (error) {
+    } catch (error:any) {
         res.status(401).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error '+error.message,
+            error: error.message
         })
     }
 }
@@ -53,10 +53,10 @@ export const getfactura = async (req : Request, res : Response) => {
     try {
         const listFactura: any[] = await getFactura(codigo_factura);
         res.json(listFactura);
-    } catch (error) {
+    } catch (error:any) {
         res.status(401).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error '+error.message,
+            error: error.message
         })
     }
 }
@@ -67,10 +67,10 @@ export const getDetallefactura = async (req : Request, res : Response) => {
     try {
         const listFactura = await getDetalleFactura(codigo_factura);
         res.json(listFactura);
-    } catch (error) {
+    } catch (error:any) {
         res.status(401).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error '+error.message,
+            error: error.message
         })
     }
 }
@@ -83,10 +83,10 @@ export const deleteFactura = async (req : Request, res : Response) => {
         res.json({
             msg: `Factura y Detalle de Factura eliminada`,
         })
-    } catch (error) {
+    } catch (error:any) {
         res.status(401).json({
-            msg: 'Ups Ocurrio Un error',
-            error
+            msg: 'Ups Ocurrio Un error '+error.message,
+            error: error.message
         })
     }
 }

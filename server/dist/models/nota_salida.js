@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Eliminar_detalle_salida = exports.Actulizar_detalle_salida = exports.Mostrar_detalle_nota_salida = exports.Eliminar_nota_salida = exports.Insertar_detalle_salida = exports.Actulizar_nota_salida = exports.NotaSalida = void 0;
+exports.Eliminar_detalle_salida = exports.Actulizar_detalle_salida = exports.Mostrar_detalle_nota_salida = exports.Eliminar_nota_salida = exports.Eliminar_notas_vacias = exports.Insertar_detalle_salida = exports.Actulizar_nota_salida = exports.NotaSalida = void 0;
 const sequelize_1 = require("sequelize");
 const conexion_1 = __importDefault(require("../db/conexion"));
 exports.NotaSalida = conexion_1.default.define('NotaSalida', {
@@ -42,6 +42,7 @@ function Actulizar_nota_salida(codSalida, fecha, origen, descripcion) {
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }
@@ -53,10 +54,23 @@ function Insertar_detalle_salida(codSalida, producto, cantidad) {
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }
 exports.Insertar_detalle_salida = Insertar_detalle_salida;
+function Eliminar_notas_vacias() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [results, metadata] = yield conexion_1.default.query(`CALL eliminar_notas_salida_vacias()`);
+        }
+        catch (error) {
+            console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
+        }
+    });
+}
+exports.Eliminar_notas_vacias = Eliminar_notas_vacias;
 function Eliminar_nota_salida(codSalida) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -64,6 +78,7 @@ function Eliminar_nota_salida(codSalida) {
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }
@@ -76,6 +91,7 @@ function Mostrar_detalle_nota_salida(codSalida) {
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }
@@ -87,6 +103,7 @@ function Actulizar_detalle_salida(codSalida, producto, cantidad) {
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }
@@ -98,6 +115,7 @@ function Eliminar_detalle_salida(codDetalle) {
         }
         catch (error) {
             console.error('Error al llamar al procedimiento almacenado:', error);
+            throw error;
         }
     });
 }
