@@ -91,8 +91,9 @@ export class ProductoComponent implements OnInit{
 
     //console.log(product);
     
-    if (!(this.productoValido())) {
+    if (this.productoInvalido()) {
       this.toastr.error("Por favor, complete todos los campos.",'Error');
+      return;
     }
 
 
@@ -102,7 +103,7 @@ export class ProductoComponent implements OnInit{
           // Manejar la respuesta exitosa aquí  
           this.limpiarCampos();
           this.getListProduct();
-          this.toastr.info('Producto Actualizado','Existo')
+          this.toastr.info(`Producto ${this.categoria} Actualizado con exito`,'Producto Actualizado')
         },
         (error: HttpErrorResponse) => {
           // Manejar el error aquí
@@ -117,14 +118,14 @@ export class ProductoComponent implements OnInit{
           // Manejar la respuesta exitosa aquí  
           this.limpiarCampos();
           this.getListProduct();
-          this.toastr.success('Producto Añadido','Existo')
+          this.toastr.success(`Producto ${this.categoria} Añadido con exito`,'Producto añadido')
         },
         (error: HttpErrorResponse) => {
           // Manejar el error aquí
           this._errorServices.msjError(error);
         } 
       );
-      this._bitacoraServices.ActualizarBitacora("Registro el Nuevo Producto: ${this.categoria}");
+      this._bitacoraServices.ActualizarBitacora(`Registro el Nuevo Producto: ${this.categoria}`);
     }
 
     
@@ -160,8 +161,8 @@ export class ProductoComponent implements OnInit{
   }
 
 
-  productoValido(): boolean {
-    return this.categoria !== '' && this.marca !== '' && this.stock > 0 && this.precioCompra > 0;
+  productoInvalido(): boolean {
+    return this.categoria == '' || this.marca == '' || this.stock == 0 && this.precioCompra == 0 && this.precioVenta == 0;
   }
   
 
