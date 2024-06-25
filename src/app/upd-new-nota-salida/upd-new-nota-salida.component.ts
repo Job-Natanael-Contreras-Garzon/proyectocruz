@@ -178,6 +178,12 @@ export class UpdNewNotaSalidaComponent implements OnInit{
   }
 
   confirm() {
+
+    if(this.origen=="" || this.descripcion=="" || this.productosSeleccionados.length==0){
+      this.toastr.error("Todos los campos son necesarios","Error");
+      return;
+    }
+
     const notasalida: NotaSalida = {
       origen: this.origen,
       descripcion: this.descripcion,
