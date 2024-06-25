@@ -23,7 +23,7 @@ export class ProductoComponent implements OnInit{
   stock: number = 0;
   precioCompra: number = 0;
   precioVenta: number = 0;
-  fechaVencimiento: Date = new Date();
+  fechaVencimiento: Date|null = new Date();
 
   listproductos: Product[] = [];
   categorias: string[] = ['Capuchon de triceta','Capuchon de junta', 'Grasa Lubricante','Grasa Grafitada', 'Reten Cigueñal'];
@@ -76,8 +76,9 @@ export class ProductoComponent implements OnInit{
   }
   
   registrarProducto(): void {
-    
-    //se crea el body 
+    if(this.fechaVencimiento instanceof Date){
+      this.fechaVencimiento=null;
+    }
     const product: Product = {
       cod:this.cod,
       marca: this.marca, 
