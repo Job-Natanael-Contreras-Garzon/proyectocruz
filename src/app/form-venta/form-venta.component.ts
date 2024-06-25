@@ -114,6 +114,13 @@ export class FormVentaComponent implements OnInit{
 
 
   ConfirmarVenta() {
+
+    if(this.CI_Cliente==0 || this.CI_Cliente<1000000 || this.nombreCliente=="" || this.emailCliente=="" || this.telefonoCliente=="" || this.metodoPago=="" || this.productosSeleccionados.length==0){
+      this.toastr.error("todos los campos son necesarios","Error");
+      return;
+    }
+
+
     const factura: Factura = {
       ci_cliente: this.CI_Cliente,
       nombre_cliente: this.nombreCliente,
