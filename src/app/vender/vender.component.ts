@@ -74,7 +74,6 @@ export class VenderComponent implements OnInit{
       this.getListFactura();
     })
   }
-  
 }
 
 
