@@ -111,5 +111,4 @@ export class UsuarioComponent implements OnInit{
       this.toastr.error('No se encontró un token en el localStorage.','Error');
     }
   }
-
 }
