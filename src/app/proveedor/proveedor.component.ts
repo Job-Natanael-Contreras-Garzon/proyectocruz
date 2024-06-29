@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BitacoraService } from '../../services/bitacora.service';
 import { PermisosService } from '../../services/permisos.service';
 import { Permiso } from '../interfaces/permiso';
+import { ErrorService } from '../../services/error.service';
 
 
 
@@ -24,6 +25,7 @@ export class ProveedorComponent implements OnInit{
   constructor(private _proveedorServices: ProveedoresService,
     private toastr: ToastrService,
     private aRouter: ActivatedRoute,
+    private _errorServices: ErrorService,
     private permisoServices: PermisosService,
     private router: Router,
     private _bitacoraServices:BitacoraService
@@ -80,6 +82,8 @@ export class ProveedorComponent implements OnInit{
       this.getListProveeedores();
       this.toastr.warning('El Proveedor fue eliminado con Exito','Proveedor eliminado');
       this._bitacoraServices.ActualizarBitacora(`Elimino el Proveedor: ${nombre}`);
+    },error =>{
+      this._errorServices.msjError(error);
     })
   }
 

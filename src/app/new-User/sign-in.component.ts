@@ -29,7 +29,7 @@ export class SignInComponent implements OnInit {
   insertar: boolean = false;
   editar: boolean = false;
   eliminar: boolean = false;
-  listvistas: string[]=["vender","producto","proveedor","notasalida","bitacora","usuario","almacen","inventario"];
+  listvistas: string[]=["vender","producto","proveedor","notasalida","bitacora","usuario","almacen","inventario","comprar"];
 
   constructor(private toastr: ToastrService,
     private _userServices: UserService,
@@ -56,8 +56,8 @@ export class SignInComponent implements OnInit {
       case "B":
         this.habilitado = true;
         this.ver = true;
-        this.insertar = false;
-        this.editar = true;
+        this.insertar = true;
+        this.editar = false;
         this.eliminar = false;
         break;
       case "C": 
@@ -75,14 +75,12 @@ export class SignInComponent implements OnInit {
       const permiso: Permiso = {
         username: this.username,
         perm_habilitado: this.habilitado,
-        perm_ver:this.ver,
         perm_insertar: this.insertar,
         perm_editar: this.editar,
         perm_eliminar: this.eliminar,
+        perm_ver:this.ver,
         vista: vista
       }
-      console.log(permiso);
-      
       this._permisoServices.newPermiso(permiso).subscribe(()=>{
       })
     })
@@ -114,7 +112,7 @@ export class SignInComponent implements OnInit {
       (data: any) => {
         // Manejar la respuesta exitosa aquí
         
-        
+        this.InsertarPermisos();
 
         this.toastr.success('Usuario Creado con exito','Usuario Creado')
         this.limpiarCampos();
@@ -125,7 +123,6 @@ export class SignInComponent implements OnInit {
       } 
     );
     this._bitacoraServices.ActualizarBitacora(`Creó el Nuevo Usuario: ${user.username}`);
-    this.InsertarPermisos();
   }
 
   limpiarCampos() {
@@ -137,8 +134,4 @@ export class SignInComponent implements OnInit {
     this.confirm_password = '';
     this.permisos = '';
   }
-
-  
-  
-
 }

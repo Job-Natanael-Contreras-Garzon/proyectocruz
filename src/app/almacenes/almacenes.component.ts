@@ -7,6 +7,7 @@ import { Almacen } from '../interfaces/almacen';
 import { PermisosService } from '../../services/permisos.service';
 import { Permiso } from '../interfaces/permiso';
 import { BitacoraService } from '../../services/bitacora.service';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-almacenes',
@@ -28,6 +29,7 @@ export class AlmacenesComponent implements OnInit {
     private aRouter: ActivatedRoute,
     private router: Router,
     private _bitacoraServices: BitacoraService,
+    private _errorServices: ErrorService,
   ) {
     
   }
@@ -78,6 +80,8 @@ export class AlmacenesComponent implements OnInit {
       this.getListAlmacenes();
       this._bitacoraServices.ActualizarBitacora(`El almacen ${nombre}, fue eliminado`)
       this.toastr.warning(`El Almacen: ${nombre}, fue eliminado con Exito`,'Almacen eliminado');
+    },error =>{
+      this._errorServices.msjError(error);
     })
   }
 

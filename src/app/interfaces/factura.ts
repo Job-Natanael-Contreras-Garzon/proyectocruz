@@ -8,4 +8,5 @@ export interface Factura{
     metodo_pago_nombre: string, 
     fecha?:Date,
     total?:number,
+    monto_descuento?:number
 }

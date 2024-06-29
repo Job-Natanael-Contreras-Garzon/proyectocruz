@@ -18,7 +18,7 @@ export class UserService {
   }
 
   newUser(user: User):Observable<string> {
-    console.log(user);
+    //console.log(user);
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/newUser`,user);
   }
 
@@ -33,5 +33,9 @@ export class UserService {
 
   getUsers():Observable<User[]> {
     return this.http.get<User[]>(`${this.myAppUrl}${this.myApiUrl}/getusers`);
+  }
+
+  getNombreAdmin():Observable<string> {
+    return this.http.get<string>(`${this.myAppUrl}${this.myApiUrl}/getAdmin`);
   }
 }

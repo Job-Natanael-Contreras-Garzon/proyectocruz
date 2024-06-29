@@ -22,13 +22,14 @@ export class MenuComponent implements OnInit{
   public AlmacenForm: FormGroup = this.fb.group({
     
   });
-  listvistas: string[]=["vender","producto","proveedor","notasalida","bitacora","usuario"];
+  listvistas: string[]=["vender","producto","proveedor","notasalida","bitacora","usuario","comprar"];
   ver_vender: boolean=false;
   ver_producto: boolean=false;
   ver_proveedor: boolean=false;
   ver_notasalida: boolean=false;
   ver_bitacora: boolean=false;
   ver_usuarios: boolean=false;
+  ver_comprar: boolean=false;
 
   private token: string;
   perm: string | undefined;
@@ -79,8 +80,11 @@ export class MenuComponent implements OnInit{
             case 'usuario':
               this.ver_usuarios = permiso.perm_ver;
               break;
+            case 'comprar':
+              this.ver_comprar = permiso.perm_ver;
+              break;
             default:
-              console.error(`Vista desconocida: ${permiso.vista}`);
+              this.toastr.error(`Vista desconocida: ${permiso.vista}`);
           }
         });
       });
@@ -151,6 +155,22 @@ export class MenuComponent implements OnInit{
 
   NotaSalida(){
     this.router.navigate(['/home/notasalida']);
+  }
+
+  comprar(){
+    this.router.navigate(['/home/comprar']);
+  }
+
+  ReporteCompra(){
+    this.router.navigate(['/home/reportecompra']);
+  }
+
+  ReporteVenta(){
+    this.router.navigate(['/home/reporteventa']);
+  }
+
+  ReporteActividad(){
+    this.router.navigate(['/home/reporteactividad']);
   }
 
 }

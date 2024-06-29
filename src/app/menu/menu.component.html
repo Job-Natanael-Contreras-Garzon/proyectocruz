@@ -5,6 +5,7 @@
     
     <button class="btn btn-outline-success" (click)="home()" type="button">Inicio</button>
     <button *ngIf="ver_vender" class="btn btn-outline-success" (click)="vender()" type="button">Vender</button>
+    <button *ngIf="ver_comprar" class="btn btn-outline-success" (click)="comprar()" type="button">Comprar</button>
     <button *ngIf="ver_producto" class="btn btn-outline-success" (click)="producto()" type="button">Productos</button>
     <button *ngIf="ver_proveedor" class="btn btn-outline-success" (click)="proveedores()" type="button">Proveedores</button>
     <button class="btn btn-outline-success" (click)="almacen()" type="button">Almacenes</button>
@@ -12,6 +13,9 @@
     <button *ngIf="ver_usuarios" class="btn btn-outline-success" (click)="registro()" type="button">Usuario</button>
     <button class="btn btn-outline-success" (click)="cambiar_password()" type="button">Cambiar contraseña</button>
     <button *ngIf="ver_bitacora" class="btn btn-outline-success" (click)="bitacora()" type="button">Bitacora</button>
+    <button *ngIf="ver_bitacora" class="btn btn-outline-success" (click)="ReporteCompra()" type="button">Reporte Compra</button>
+    <button *ngIf="ver_bitacora" class="btn btn-outline-success" (click)="ReporteVenta()" type="button">Reporte Venta</button>
+    <button *ngIf="ver_bitacora" class="btn btn-outline-success" (click)="ReporteActividad()" type="button">Reporte Actividad</button>
     <button class="btn btn-outline-success"(click)="logOut()" type="button">Cerrar Sesion</button>
   
   </div>

@@ -41,4 +41,8 @@ export class FacturaService {
   delete_Factura_Detalle(cod:number):Observable<void>{
     return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}/${cod}`);
   }
+
+  MostrarClientes():Observable<string>{
+    return this.http.get<string>(`${this.myAppUrl}${this.myApiUrl}/MostrarClientes`);
+  }
 }

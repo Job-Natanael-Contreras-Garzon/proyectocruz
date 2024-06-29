@@ -35,6 +35,12 @@ import { UpdNewNotaSalidaComponent } from './upd-new-nota-salida/upd-new-nota-sa
 import { SessionLostComponent } from './session-lost/session-lost.component';
 import { UserPermisosComponent } from './user-permisos/user-permisos.component';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { BoletaCompraComponent } from './boleta-compra/boleta-compra.component';
+import { ComprarComponent } from './comprar/comprar.component';
+import { NewCompraComponent } from './new-compra/new-compra.component';
+import { ReporteActividadComponent } from './reporte-actividad/reporte-actividad.component';
+import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
+import { ReporteCompraComponent } from './reporte-compra/reporte-compra.component';
 
 
 @NgModule({
@@ -61,7 +67,13 @@ import { UsuarioComponent } from './usuario/usuario.component';
     UpdNewNotaSalidaComponent,
     SessionLostComponent,
     UserPermisosComponent,
-    UsuarioComponent,    
+    UsuarioComponent,
+    BoletaCompraComponent,
+    ComprarComponent,
+    NewCompraComponent,
+    ReporteActividadComponent,
+    ReporteVentaComponent,
+    ReporteCompraComponent,    
   ],
   imports: [
     BrowserModule,

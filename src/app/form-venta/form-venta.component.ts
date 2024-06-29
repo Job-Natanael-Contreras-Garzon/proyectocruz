@@ -9,6 +9,7 @@ import { DetalleFactura } from '../interfaces/detallefactura';
 import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
+import { Descuento } from '../interfaces/descuento';
 
 @Component({
   selector: 'app-form-venta',
@@ -24,6 +25,7 @@ export class FormVentaComponent implements OnInit{
   metodoPago: string = "";
   username: string = "";
   codfact: number=0;
+  descuentoSeleccionado: number = 0;
 
   listproducts: Product[] = [];
   productoSeleccionado: Product={
@@ -59,6 +61,11 @@ export class FormVentaComponent implements OnInit{
   }
 
   agregarProducto() {
+    if(this.productoVacio()){
+      this.toastr.error("Seleccione un producto","Error")
+      return;
+    }
+
     if (this.productoSeleccionado && this.cantidadSeleccionada > 0) {
       const encontrado = this.productosSeleccionados.find(item => item.producto === this.productoSeleccionado);
       if (encontrado) {
@@ -75,6 +82,9 @@ export class FormVentaComponent implements OnInit{
     }
   }
   
+  productoVacio():boolean{
+    return this.productoSeleccionado.categoria==""||this.productoSeleccionado.marca=="" || this.productoSeleccionado==null
+  }
 
   eliminarProducto(producto: { producto: Product, cantidad: number, subtotal: number }) {
     const index = this.productosSeleccionados.indexOf(producto);
@@ -120,7 +130,6 @@ export class FormVentaComponent implements OnInit{
       return;
     }
 
-
     const factura: Factura = {
       ci_cliente: this.CI_Cliente,
       nombre_cliente: this.nombreCliente,
@@ -128,8 +137,9 @@ export class FormVentaComponent implements OnInit{
       telefono_cliente: this.telefonoCliente,
       nombre_usuario: this.username,
       metodo_pago_nombre: this.metodoPago,
+      monto_descuento: this.descuentoSeleccionado,
     };
-  
+
     this._facturaServices.newFactura(factura).subscribe(
       (data: any) => {
         const codFactura = data[0].insertar_factura;
@@ -156,6 +166,7 @@ export class FormVentaComponent implements OnInit{
     );
   }
   
+  
   eliminarFactura(codFactura: number) {
     this._facturaServices.delete_Factura_Detalle(codFactura).subscribe(
       () => {
@@ -167,7 +178,6 @@ export class FormVentaComponent implements OnInit{
     );
   }
   
-
   detalleFact(): Observable<boolean> {
     const requests = this.productosSeleccionados.map(item => {
       const detalleFac: DetalleFactura = {

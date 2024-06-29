@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserPermisosComponent implements OnInit{
   
   listUser: (User & Permiso)[] = [];
-  vistas: string[] = ["vender", "producto", "proveedor", "notasalida", "bitacora", "usuario", "almacen", "inventario"];
+  vistas: string[] = ["vender", "producto", "proveedor", "notasalida", "bitacora", "usuario", "almacen", "inventario","comprar"];
   selectedVista: string = "vender";
   username: string = "";
 

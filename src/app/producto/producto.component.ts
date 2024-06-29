@@ -152,12 +152,16 @@ export class ProductoComponent implements OnInit{
       this.toastr.warning('Eliminado con Existo')
       this.getListProduct();
       this._bitacoraServices.ActualizarBitacora(`Eliminó el Producto: ${pr}`);
+    },error =>{
+      this._errorServices.msjError(error);
     })
   }
 
   getListProduct(): void{
     this._productService.getProducts().subscribe((data:Product[])=>{
       this.listproductos=data;      
+    },error =>{
+      this._errorServices.msjError(error);
     })
   }
 

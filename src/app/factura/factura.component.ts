@@ -16,6 +16,7 @@ export class FacturaComponent implements OnInit {
   metodo_pago: string="QR";
   fecha: Date=new Date;
   total: number=0;
+  descuento:number = 0;
 
   codigo:number;
 
@@ -46,8 +47,9 @@ export class FacturaComponent implements OnInit {
         this.nombre_administrador = factura.nombre_usuario
         this.fecha = factura.fecha!;
         this.total = factura.total!;
+        this.descuento = factura.monto_descuento!;
       } else {
-        console.log("No se encontraron facturas.");
+        this.toastr.info("No se encontraron facturas");
       }
     });
   }

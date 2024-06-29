@@ -8,6 +8,7 @@
       <th scope="col">Producto</th>
       <th scope="col">Cantidad</th>
       <th scope="col">Almacen</th>
+      <th scope="col">fecha</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +17,7 @@
       <td>{{ inv.nombre_producto }}</td>
       <td>{{ inv.cantidad }}</td>
       <td>{{ inv.nombre_almacen }}</td>
+      <td>{{ inv.fecha }}</td>
       <button *ngIf="eliminar" (click)="deleteInventario(inv.numero!,inv.nombre_producto)" class="btn-submit">Eliminar</button>
   </tr>
   </tbody>
