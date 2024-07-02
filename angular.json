@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/auto-partes-cruz-srl",
+            "outputPath": "dist/auto-pzrtes-cruz-srl",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
