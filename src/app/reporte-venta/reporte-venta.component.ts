@@ -5,7 +5,7 @@ import { Product } from '../interfaces/product';
 import { ProductoService } from '../../services/producto.service';
 import { UserService } from '../../services/user.service';
 import { FacturaService } from '../../services/factura.service';
-import * as XLSX from 'xlsx';
+import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -48,23 +48,34 @@ export class ReporteVentaComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const exportData = this.filteredVentaConDetalle.map(item => ({
-      Fecha: item.factura.fecha,
-      Producto: item.detalleVenta.map(d => d.categoria_producto_nombre).join(', '),
-      Administrador: item.factura.nombre_usuario,
-      Cliente: item.factura.nombre_cliente,
-      Cantidad: item.detalleVenta.map(d => d.cantidad_producto).join(', '),
-      Precio: item.detalleVenta.map(d => d.importe).join(', '),
-      Total: item.factura.total
-    }));
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Reportes de Venta');
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'Reportes de Venta': worksheet },
-      SheetNames: ['Reportes de Venta']
-    };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, 'Reportes de Venta');
+    worksheet.columns = [
+      { header: 'Fecha', key: 'fecha', width: 15 },
+      { header: 'Producto', key: 'producto', width: 30 },
+      { header: 'Administrador', key: 'administrador', width: 20 },
+      { header: 'Cliente', key: 'cliente', width: 20 },
+      { header: 'Cantidad', key: 'cantidad', width: 15 },
+      { header: 'Precio', key: 'precio', width: 15 },
+      { header: 'Total', key: 'total', width: 15 }
+    ];
+
+    this.filteredVentaConDetalle.forEach(item => {
+      worksheet.addRow({
+        fecha: item.factura.fecha,
+        producto: item.detalleVenta.map(d => d.categoria_producto_nombre).join(', '),
+        administrador: item.factura.nombre_usuario,
+        cliente: item.factura.nombre_cliente,
+        cantidad: item.detalleVenta.map(d => d.cantidad_producto).join(', '),
+        precio: item.detalleVenta.map(d => d.importe).join(', '),
+        total: item.factura.total
+      });
+    });
+
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      this.saveAsExcelFile(buffer, 'Reportes_de_Venta');
+    });
   }
 
   exportToPDF(): void {

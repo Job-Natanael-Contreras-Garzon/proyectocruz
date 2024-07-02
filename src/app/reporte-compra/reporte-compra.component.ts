@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as XLSX from 'xlsx';
+import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
 import { ProveedoresService } from '../../services/proveedores.service';
 import { BoletacompraService } from '../../services/boletacompra.service';
@@ -51,23 +51,34 @@ export class ReporteCompraComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const exportData = this.filteredCompraConDetalle.map(item => ({
-      Fecha: item.boleta.fecha,
-      Producto: item.detalleCompra.map(d => d.nombre_producto).join(', '),
-      Administrador: item.boleta.nombre_administrador,
-      Proveedor: item.boleta.nombre_proveedor,
-      Cantidad: item.detalleCompra.map(d => d.cantidad).join(', '),
-      Precio: item.detalleCompra.map(d => d.importe).join(', '),
-      Total: item.boleta.total
-    }));
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Reportes de Compra');
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'Reportes de Compra': worksheet },
-      SheetNames: ['Reportes de Compra']
-    };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, 'Reportes de Compra');
+    worksheet.columns = [
+      { header: 'Fecha', key: 'fecha', width: 15 },
+      { header: 'Producto', key: 'producto', width: 30 },
+      { header: 'Administrador', key: 'administrador', width: 20 },
+      { header: 'Proveedor', key: 'proveedor', width: 20 },
+      { header: 'Cantidad', key: 'cantidad', width: 15 },
+      { header: 'Precio', key: 'precio', width: 15 },
+      { header: 'Total', key: 'total', width: 15 }
+    ];
+
+    this.filteredCompraConDetalle.forEach(item => {
+      worksheet.addRow({
+        fecha: item.boleta.fecha,
+        producto: item.detalleCompra.map(d => d.nombre_producto).join(', '),
+        administrador: item.boleta.nombre_administrador,
+        proveedor: item.boleta.nombre_proveedor,
+        cantidad: item.detalleCompra.map(d => d.cantidad).join(', '),
+        precio: item.detalleCompra.map(d => d.importe).join(', '),
+        total: item.boleta.total
+      });
+    });
+
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      this.saveAsExcelFile(buffer, 'Reportes_de_Compra');
+    });
   }
 
   exportToPDF(): void {

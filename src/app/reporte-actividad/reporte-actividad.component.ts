@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Bitacora } from '../interfaces/bitacora';
-import * as XLSX from 'xlsx';
+import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -44,13 +44,23 @@ export class ReporteActividadComponent implements OnInit {
       Descripcion: item.descripcion
     }));
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'Reportes de Actividad': worksheet },
-      SheetNames: ['Reportes de Actividad']
-    };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, 'Reportes de Actividad');
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Reportes de Actividad');
+
+    worksheet.columns = [
+      { header: 'Fecha', key: 'Fecha', width: 20 },
+      { header: 'Usuario', key: 'Usuario', width: 20 },
+      { header: 'Direccion IP', key: 'DireccionIP', width: 20 },
+      { header: 'Descripcion', key: 'Descripcion', width: 40 }
+    ];
+
+    exportData.forEach(item => {
+      worksheet.addRow(item);
+    });
+
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      this.saveAsExcelFile(buffer, 'Reportes_de_Actividad');
+    });
   }
 
   exportToPDF(): void {
