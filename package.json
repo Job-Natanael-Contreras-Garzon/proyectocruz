@@ -22,10 +22,13 @@
     "bootstrap": "^5.3.3",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
+    "glob": "^10.4.2",
     "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
     "jspdf": "^2.5.1",
     "ngx-toastr": "^18.0.0",
+    "read-package-json": "^7.0.1",
+    "rimraf": "^5.0.7",
     "rxjs": "^7.8.0",
     "serve": "^14.0.1",
     "zone.js": "~0.14.3"
